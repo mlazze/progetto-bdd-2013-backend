@@ -1,0 +1,25 @@
+Normalizzazione:
+	è in 1NF;
+
+	è in 2NF;
+
+	3NF: tolgo datadinascita da utente perchè è calcolabile dal cf
+
+	conto(KEY N#, amm_tettomax NOTNULL, scadenza, data iniziale, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL)
+
+	spesa(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
+
+	entrata(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
+
+	categoria(KEY(utente.ID, nome), -supercat- categoria.utente.ID, -supercat- categoria.nome)
+
+	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza, -associato- conto.n# NOT NULL)
+
+	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,comunedinascita,nazioneresidenza, indirizzo, telefono)
+
+	profilo(KEY(utente.ID,idprof), valuta)
+
+	associazione_bilancio(KEY(categoria.utente.ID, categoria.nome, conto.n#, bilancio.idbil))
+
+
+	è in BCNF

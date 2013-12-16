@@ -1,0 +1,25 @@
+Tipi:
+1 INTEGER,SMALLINT
+2 NUMERIC(precisione,scala) o DECIMAL(p,s) p=n# totale cifre, scala = n# cifre decimali
+3 REAL, DOUBLE PRECISION, FLOAT (4B, 8B, 4B-8B)
+4 CHARACTER[(n)] o CHAR[(n)]
+5 CHARACTER VARYING[(n)] - VARCHAR [(n)]
+6 BIT[(n)]
+7 BIT VARYING [(n)]
+8 BOOLEAN
+9 DATE
+10 TIME
+11 TIMESTAMP (date+time)
+12 BLOB (bytea (sequenza di byte) o oid (tabella a parte con pointer))
+13 CLOB (text)
+
+CREATE SCHEMA [NomeSchema] [AUTHORIZATION Username] [{Elemento Schema}]
+CREATE DATABASE NomeDB [[WITH][OWNER [=] Username][ENCODING [=] encoding]
+CREATE TABLE NomeTabella({NomeAttr Dominio [DEFAULT DefaultValue] [Vincoli]}) 
+	DefaultVAlue: val|User|Null
+	Vincoli: NOT NULL, UNIQUE, PRIMARY KEY, REFERENCES(FOREIGN KEY) [ON UPDATE/DELETE CASCADE/SET NULL/SET DEFAULT/NO ACTION(def)], CHECK(qualcosa)
+CREATE DOMAIN NomeDominio AS TipoDatoBase [DefaultValue][{Vincoli}]
+
+ALTER TABLE NomeTabella ALTERBLABLA
+
+DROP BlaBla [RESTRICT|CASCADE] (restrict=solo se vuoto)
