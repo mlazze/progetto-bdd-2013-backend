@@ -1,1 +1,19 @@
 err
+
+1. reset sequence?
+
+2. constraints
+
+3. vincolo cfiscale = 16lettere
+
+4.nazione = fa parte di tabella naz
+
+5. email nel formato xxx@xxx.xxx
+
+6. telefono formato (+)#####
+
+7. valuta tabella
+
+8. conto.amm_tettomax >=0
+
+9. giorno_iniz <= 31

@@ -24,11 +24,14 @@ CREATE TABLE categoria(
 	FOREIGN KEY(supercat_utente, supercat_nome) REFERENCES categoria(userid, nome)
 	);
 
+CREATE DOMAIN DEPCRED AS VARCHAR CHECK(VALUE IN ('Deposito','Credito'));
+
 CREATE TABLE conto(
 	numero SERIAL PRIMARY KEY,
 	amm_tettomax DECIMAL(12,2) NOT NULL,
-	scadenza DATE,
-	data_iniziale DATE,
+	tipo DEPCRED NOT NULL,
+	scadenza_giorni INTEGER,
+	giorno_iniziale INTEGER,
 	userid INTEGER REFERENCES utente(userid),
 	data_creazione DATE
 	);
@@ -49,8 +52,6 @@ CREATE TABLE entrate(
 	conto INTEGER REFERENCES conto(numero),
 	id_op SERIAL,
 	data DATE,
-	categoria_user INTEGER,
-	categoria_nome VARCHAR(20),
 	descrizione VARCHAR(100),
 	valore DECIMAL(12,2),
 	PRIMARY KEY(conto,id_op),
@@ -58,7 +59,7 @@ CREATE TABLE entrate(
 	);
 
 CREATE TABLE bilancio(
-	userid INTEGER,
+	userid INTEGER REFERENCES utente(userid),
 	nome varchar(20),
 	ammontareprevisto DECIMAL(12,2),
 	ammontarerestante DECIMAL(12,2),

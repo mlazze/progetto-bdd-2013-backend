@@ -1,5 +1,5 @@
 Relazioni:
-	conto(KEY N#, amm_tettomax NOTNULL, scadenza, data iniziale, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL)
+	conto(KEY N#, amm_tettomax NOTNULL, scadenza, tipo, data iniziale, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL)
 
 	spesa(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
 

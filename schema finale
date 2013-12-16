@@ -1,8 +1,8 @@
-conto(KEY N#, amm_tettomax NOTNULL, scadenza, data iniziale, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL)
+conto(KEY N#, amm_tettomax NOTNULL, tipo, scadenza, data iniziale, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL)
 
 spesa(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
 
-entrata(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
+entrata(KEY(conto.n#, idop), data,descrizione,valore NOT NULL)
 
 categoria(KEY(utente.ID, nome), -supercat- categoria.utente.ID, -supercat- categoria.nome)
 
