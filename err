@@ -22,3 +22,7 @@ F3. vincolo cfiscale = 16lettere
 9. giorno_iniz <= 31
 
 10. data spesa/entra > conto.data_creazione
+
+11. nome/cogn NOTNULL?
+
+
