@@ -1,0 +1,1 @@
+INSERT INTO utente (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('gigi','galli','GGLLLSKDKALL!"','via caca 12','ita','email','0039329');

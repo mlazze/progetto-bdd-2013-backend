@@ -1,8 +1,10 @@
 err
 
-1. reset sequence?
+F1. reset sequence? ALTER SEQUENCE seq RESTART;
 
-2. constraints
+1.5 sequenza conti
+
+2. constraints vari
 
 3. vincolo cfiscale = 16lettere
 
@@ -17,3 +19,5 @@ err
 8. conto.amm_tettomax >=0
 
 9. giorno_iniz <= 31
+
+10. data spesa/entra > conto.data_creazione

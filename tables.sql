@@ -3,7 +3,7 @@ CREATE TABLE utente(
 	userid SERIAL PRIMARY KEY , 
 	nome VARCHAR(20), 
 	cognome VARCHAR(20), 
-	cfiscale CHAR(16) NOT NULL, 
+	cfiscale CHAR(16) NOT NULL CHECK (cfiscale ~ '[A-Za-z0-9]{16}'), 
 	indirizzo VARCHAR(50), 
 	nazione_res VARCHAR(20), 
 	email VARCHAR(50), 
@@ -78,3 +78,9 @@ CREATE TABLE associazione_bilancio(
 	FOREIGN KEY (userid,nome_cat) REFERENCES categoria(userid,nome),
 	FOREIGN KEY (userid,bilancio) REFERENCES bilancio(userid,nome)
 	);
+
+CREATE OR REPLACE FUNCTION seq_reset(seqid varchar) RETURNS VOID as $$
+		begin
+			ALTER SEQUENCE seqid RESTART;
+		end;
+	$$ language plpgsql;
