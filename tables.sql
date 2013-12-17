@@ -12,7 +12,7 @@ CREATE TABLE utente(
 
 CREATE TABLE profilo(
 	userid INTEGER PRIMARY KEY REFERENCES utente(userid),
-	valuta CHAR DEFAULT '€'
+	valuta CHAR DEFAULT '€' NOT NULL
 	);
 
 CREATE TABLE categoria(
@@ -78,9 +78,3 @@ CREATE TABLE associazione_bilancio(
 	FOREIGN KEY (userid,nome_cat) REFERENCES categoria(userid,nome),
 	FOREIGN KEY (userid,bilancio) REFERENCES bilancio(userid,nome)
 	);
-
-CREATE OR REPLACE FUNCTION seq_reset(seqid varchar) RETURNS VOID as $$
-		begin
-			ALTER SEQUENCE seqid RESTART;
-		end;
-	$$ language plpgsql;
