@@ -8,21 +8,24 @@ F1. reset sequence? ALTER SEQUENCE seq RESTART;
 
 F3. vincolo cfiscale = 16lettere
 
-4.nazione = fa parte di tabella naz
+F4.nazione = fa parte di tabella naz
 
-5. email nel formato xxx@xxx.xxx
+F5. email nel formato xxx@xxx.xxx
 
-6. telefono formato (+)#####
+F6. telefono formato (+)#####
 
-7. valuta tabella
+F7. valuta tabella
 
 8. scadenza, giorno, se cred
 8. conto.amm_tettomax >=0
 
-9. giorno_iniz <= 31
+F9. giorno_iniz <= 31
 
 10. data spesa/entra > conto.data_creazione
 
 11. nome/cogn NOTNULL?
 
+12. trigger: utente -> crea profilo
+
+13. userid buchi!
 
