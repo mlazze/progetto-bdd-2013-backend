@@ -22,10 +22,11 @@ F7. valuta tabella
 F9. giorno_iniz <= 31
 
 10. data spesa/entra > conto.data_creazione
-
-11. nome/cogn NOTNULL?
+10.5 data partenza bilancio > conto.data_creazione
+F11. nome/cogn NOTNULL?
 
 12. trigger: utente -> crea profilo
 
 13. userid buchi!
 
+14. VARCHAR(X) sempre x o arriva max a x?

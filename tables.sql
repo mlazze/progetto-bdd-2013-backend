@@ -11,7 +11,7 @@ CREATE TABLE nazione(
 CREATE TABLE utente(
 	userid SERIAL PRIMARY KEY , 
 	nome VARCHAR(30), 
-	cognome VARCHAR(20), 
+	cognome VARCHAR(20) CHECK (cognome IS NOT NULL OR nome IS NOT NULL), 
 	cfiscale CHAR(16) NOT NULL CHECK (cfiscale ~ '[A-Za-z0-9]{16}'), 
 	indirizzo VARCHAR(70), 
 	nazione_res VARCHAR(50) REFERENCES nazione(nicename),
@@ -25,7 +25,7 @@ CREATE TABLE profilo(
 	);
 
 CREATE TABLE categoria(
-	userid INTEGER REFERENCES utente(userid), 
+	userid INTEGER REFERENCES utente(userid) NOT NULL, 
 	nome VARCHAR(20), 
 	supercat_utente INTEGER, 
 	supercat_nome VARCHAR(20), 
@@ -41,18 +41,18 @@ CREATE TABLE conto(
 	tipo DEPCRED NOT NULL,
 	scadenza_giorni INTEGER,
 	giorno_iniziale INTEGER CHECK (giorno_iniziale >= 1 AND giorno_iniziale <=31),
-	userid INTEGER REFERENCES utente(userid),
+	userid INTEGER REFERENCES utente(userid) NOT NULL,
 	data_creazione DATE
 	);
 
 CREATE TABLE spesa(
-	conto INTEGER REFERENCES conto(numero),
+	conto INTEGER REFERENCES conto(numero) NOT NULL,
 	id_op SERIAL,
-	data DATE,
+	data DATE NOT NULL,
 	categoria_user INTEGER,
 	categoria_nome VARCHAR(20),
-	descrizione VARCHAR(100),
-	valore DECIMAL(12,2),
+	descrizione VARCHAR(200),
+	valore DECIMAL(12,2) NOT NULL,
 	PRIMARY KEY(conto,id_op),
 	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria(userid,nome)
 	);
@@ -60,20 +60,20 @@ CREATE TABLE spesa(
 CREATE TABLE entrate(
 	conto INTEGER REFERENCES conto(numero),
 	id_op SERIAL,
-	data DATE,
+	data DATE NOT NULL,
 	descrizione VARCHAR(100),
-	valore DECIMAL(12,2),
+	valore DECIMAL(12,2) NOT NULL,
 	PRIMARY KEY(conto,id_op)
 	);
 
 CREATE TABLE bilancio(
 	userid INTEGER REFERENCES utente(userid),
 	nome varchar(20),
-	ammontareprevisto DECIMAL(12,2),
-	ammontarerestante DECIMAL(12,2),
-	periodovalidità INTEGER,
-	data_partenza DATE,
-	n_conto INTEGER REFERENCES conto(numero),
+	ammontareprevisto DECIMAL(12,2) NOT NULL,
+	ammontarerestante DECIMAL(12,2) NOT NULL,
+	periodovalidità INTEGER NOT NULL,
+	data_partenza DATE NOT NULL,
+	n_conto INTEGER REFERENCES conto(numero) NOT NULL,
 	PRIMARY KEY(userid,nome)
 	);
 
