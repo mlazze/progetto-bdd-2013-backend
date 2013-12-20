@@ -17,7 +17,7 @@ F6. telefono formato (+)#####
 F7. valuta tabella
 
 8. scadenza, giorno, se cred
-8. conto.amm_tettomax >=0
+F8. conto.amm_tettomax >=0
 
 F9. giorno_iniz <= 31
 

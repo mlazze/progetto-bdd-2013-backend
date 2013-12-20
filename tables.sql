@@ -19,9 +19,13 @@ CREATE TABLE utente(
 	telefono VARCHAR(15) CHECK (telefono ~ '[+]?[0-9]*[/-\\]?[0-9]*')
 	);
 
+CREATE TABLE valuta(
+	simbolo CHAR PRIMARY KEY
+);
+
 CREATE TABLE profilo(
 	userid INTEGER PRIMARY KEY REFERENCES utente(userid),
-	valuta CHAR DEFAULT '€' NOT NULL
+	valuta CHAR DEFAULT '€' NOT NULL REFERENCES valuta(simbolo)
 	);
 
 CREATE TABLE categoria(
@@ -37,12 +41,13 @@ CREATE DOMAIN DEPCRED AS VARCHAR CHECK(VALUE IN ('Deposito','Credito'));
 
 CREATE TABLE conto(
 	numero SERIAL PRIMARY KEY,
-	amm_tettomax DECIMAL(12,2) NOT NULL,
+	amm_tettomax DECIMAL(12,2) NOT NULL CHECK (amm_tettomax >= 0),
 	tipo DEPCRED NOT NULL,
-	scadenza_giorni INTEGER,
+	scadenza_giorni INTEGER CHECK (scadenza_giorni >= 1 AND scadenza_giorni <= 366 AND ((tipo = 'Credito' AND scadenza_giorni IS NOT NULL AND giorno_iniziale IS NOT NULL) OR (tipo = 'Deposito' AND scadenza_giorni IS NULL AND giorno_iniziale IS NULL))),
 	giorno_iniziale INTEGER CHECK (giorno_iniziale >= 1 AND giorno_iniziale <=31),
 	userid INTEGER REFERENCES utente(userid) NOT NULL,
-	data_creazione DATE
+	data_creazione DATE NOT NULL,
+	conto_di_rif INTEGER CHECK ((tipo = 'Credito' and conto_di_rif IS NOT NULL) OR (tipo = 'Deposito' AND conto_di_rif IS NULL))
 	);
 
 CREATE TABLE spesa(
@@ -52,7 +57,7 @@ CREATE TABLE spesa(
 	categoria_user INTEGER,
 	categoria_nome VARCHAR(20),
 	descrizione VARCHAR(200),
-	valore DECIMAL(12,2) NOT NULL,
+	valore DECIMAL(12,2) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op),
 	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria(userid,nome)
 	);
@@ -62,16 +67,16 @@ CREATE TABLE entrate(
 	id_op SERIAL,
 	data DATE NOT NULL,
 	descrizione VARCHAR(100),
-	valore DECIMAL(12,2) NOT NULL,
+	valore DECIMAL(12,2) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op)
 	);
 
 CREATE TABLE bilancio(
 	userid INTEGER REFERENCES utente(userid),
 	nome varchar(20),
-	ammontareprevisto DECIMAL(12,2) NOT NULL,
+	ammontareprevisto DECIMAL(12,2) NOT NULL CHECK (ammontareprevisto >= 0),
 	ammontarerestante DECIMAL(12,2) NOT NULL,
-	periodovalidità INTEGER NOT NULL,
+	periodovalidità INTEGER NOT NULL CHECK (periodovalidità > 0),
 	data_partenza DATE NOT NULL,
 	n_conto INTEGER REFERENCES conto(numero) NOT NULL,
 	PRIMARY KEY(userid,nome)

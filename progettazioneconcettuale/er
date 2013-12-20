@@ -11,6 +11,7 @@ Entità: Conto (Tipologia, Data creazione, KEYn#)
 		Profilo(opzionivarie) debole -opz-
 
 Ass:	Utente -haun- Conto 0:N 1:1 (datacreazione)
+		credito 1:1 -riferitoa- deposito 0:N
 		Spese -suun- to 1:1 0:N (valuta)
 		Utente -definisce- Bilancio 0:N 1:1 (datadefinizione)
 		Bilancio -associato- Conto 1:1 0:N
@@ -38,6 +39,7 @@ Entità: Conto (Data creazione, KEYn#, Ammontare/tetto, scadenza, Tipo)
 		Profilo(idprof, opzionivarie) debole -opz-
 
 Ass:	- Utente -haun- Conto 0:N 1:1 (datacreazione)
+		- Conto 1:1 -riferitoa- 0:N
 		- Spese -suun- Conto 1:1 0:N (valuta)
 		- Utente -definisce- Bilancio 0:N 1:1 (datadefinizione)
 		- Bilancio -associato- Conto 1:1 0:N
