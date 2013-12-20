@@ -1,11 +1,5 @@
 CREATE TABLE nazione(
-	id INTEGER ,
-	iso CHAR(2) NOT NULL,
-	name VARCHAR(80) NOT NULL,
-	nicename VARCHAR(80) PRIMARY KEY,
-	iso3 CHAR(3) DEFAULT NULL,
-	numcode INTEGER DEFAULT NULL,
-	phonecode INTEGER NOT NULL
+	name VARCHAR(80) PRIMARY KEY
 );
 
 CREATE TABLE utente(
@@ -14,7 +8,7 @@ CREATE TABLE utente(
 	cognome VARCHAR(20) CHECK (cognome IS NOT NULL OR nome IS NOT NULL), 
 	cfiscale CHAR(16) NOT NULL CHECK (cfiscale ~ '[A-Za-z0-9]{16}'), 
 	indirizzo VARCHAR(70), 
-	nazione_res VARCHAR(50) REFERENCES nazione(nicename),
+	nazione_res VARCHAR(50) REFERENCES nazione(name),
 	email VARCHAR(100) CHECK (email ~ '^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$'), 
 	telefono VARCHAR(15) CHECK (telefono ~ '[+]?[0-9]*[/-\\]?[0-9]*')
 	);
@@ -47,11 +41,12 @@ CREATE TABLE conto(
 	giorno_iniziale INTEGER CHECK (giorno_iniziale >= 1 AND giorno_iniziale <=31),
 	userid INTEGER REFERENCES utente(userid) NOT NULL,
 	data_creazione DATE NOT NULL,
-	conto_di_rif INTEGER CHECK ((tipo = 'Credito' and conto_di_rif IS NOT NULL) OR (tipo = 'Deposito' AND conto_di_rif IS NULL))
+	conto_di_rif INTEGER CHECK ((tipo = 'Credito' and conto_di_rif IS NOT NULL) OR (tipo = 'Deposito' AND conto_di_rif IS NULL)) REFERENCES conto(numero)
 	);
 
 CREATE TABLE spesa(
-	conto INTEGER REFERENCES conto(numero) NOT NULL,
+	conto INTEGER REFERENCES conto(numero) NOT NULL
+	,
 	id_op SERIAL,
 	data DATE NOT NULL,
 	categoria_user INTEGER,

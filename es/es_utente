@@ -1,5 +1,3 @@
-INSERT INTO utente (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('gigi','galli','GGGLLLAAALLLBBB1','via caca 12','ita','email','0039329');
-
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Adena','Volpe','DOVDEC00I60Q079H','1213 Felis Rd.','Ireland','libero@In.com','061 1153647');
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Illiana','Rizzi','HNVWRD70V48A715Z','256-1708 Fermentum St.','Andorra','nascetur.ridiculus.mus@eratSednunc.com','+152259230904');
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Sade','Meloni','JHOTWI45Z88P657M','880-5084 Eget Road','Moldova','molestie.tortor.nibh@orci.net','+193436413165');

@@ -16,7 +16,7 @@ F6. telefono formato (+)#####
 
 F7. valuta tabella
 
-8. scadenza, giorno, se cred
+F8. scadenza, giorno, se cred
 F8. conto.amm_tettomax >=0
 
 F9. giorno_iniz <= 31
@@ -26,7 +26,11 @@ F9. giorno_iniz <= 31
 F11. nome/cogn NOTNULL?
 
 12. trigger: utente -> crea profilo
+12.1 trigger: inserimento conto di cred -> conto_di_rif è DI DEPOSITO?
+12.2 trigger: 10
+12.3 trigger: 10.5
+12.4 trigger on failed insert: 13?
 
 13. userid buchi!
 
-14. VARCHAR(X) sempre x o arriva max a x?
+14. VARCHAR(X) sempre x o arriva max 
