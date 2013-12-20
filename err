@@ -30,6 +30,7 @@ F11. nome/cogn NOTNULL?
 12.2 trigger: 10
 12.3 trigger: 10.5
 12.4 trigger on failed insert: 13?
+12.5 recursively check tha supercat has a NULL in supercat
 
 13. userid buchi!
 
