@@ -2,7 +2,7 @@ err
 
 F1. reset sequence? ALTER SEQUENCE seq RESTART;
 
-1.5 sequenza conti
+F1.5 sequenza entrate/spese (funzione cerca ultima, prendi id e aggiungi 1)
 
 2. constraints vari
 
@@ -21,8 +21,8 @@ F8. conto.amm_tettomax >=0
 
 F9. giorno_iniz <= 31
 
-10. data spesa/entra > conto.data_creazione
-10.5 data partenza bilancio > conto.data_creazione
+10. data spesa/entra > conto.data_creazione (funzione)
+10.5 data partenza bilancio > conto.data_creazione (funzione)
 F11. nome/cogn NOTNULL?
 
 12. trigger: utente -> crea profilo
@@ -31,7 +31,6 @@ F11. nome/cogn NOTNULL?
 12.3 trigger: 10.5
 12.4 trigger on failed insert: 13?
 12.5 recursively check tha supercat has a NULL in supercat
+12.6 trigger: sequenza entrate/spese trigger
 
-13. userid buchi!
-
-14. VARCHAR(X) sempre x o arriva max 
+F13. userid buchi! (funzione entrate 1.5)

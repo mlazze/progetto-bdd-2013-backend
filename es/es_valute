@@ -3,4 +3,5 @@ INSERT INTO TABLE valuta(simbolo) VALUES
 ('€'),
 ('£'),
 ('¥'),
+('₩'),
 ('¢');

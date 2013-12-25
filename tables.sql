@@ -2,8 +2,57 @@ CREATE TABLE nazione(
 	name VARCHAR(80) PRIMARY KEY
 );
 
+CREATE OR REPLACE FUNCTION get_first_free_utente() RETURNS INTEGER AS $$
+		DECLARE
+			a INTEGER;
+		BEGIN
+			SELECT MAX(userid) INTO a FROM utente;
+			IF a IS NULL THEN
+				a:=0;
+			END IF;
+			RETURN a+1;
+		END;
+	$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_first_free_conto() RETURNS INTEGER AS $$
+		DECLARE
+			a INTEGER;
+		BEGIN
+			SELECT MAX(numero) INTO a FROM conto;
+			IF a IS NULL THEN
+				a:=0;
+			END IF;
+			RETURN a+1;
+		END;
+	$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_first_free_spesa(INTEGER) RETURNS INTEGER AS $$
+		DECLARE
+			a INTEGER;
+		BEGIN
+			SELECT MAX(id_op) INTO a FROM spesa WHERE userid = $1;
+			IF a IS NULL THEN
+				a:=0;
+			END IF;
+			RETURN a+1;
+		END;
+	$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_first_free_entrata(INTEGER) RETURNS INTEGER AS $$
+		DECLARE
+			a INTEGER;
+		BEGIN
+			SELECT MAX(id_op) INTO a FROM spesa WHERE userid = $1;
+			IF a IS NULL THEN
+				a:=0;
+			END IF;
+			RETURN a+1;
+		END;
+	$$ LANGUAGE plpgsql;
+
 CREATE TABLE utente(
-	userid SERIAL PRIMARY KEY , 
+	userid INTEGER DEFAULT get_first_free_utente() PRIMARY KEY , 
 	nome VARCHAR(30), 
 	cognome VARCHAR(20) CHECK (cognome IS NOT NULL OR nome IS NOT NULL), 
 	cfiscale CHAR(16) NOT NULL CHECK (cfiscale ~ '[A-Za-z0-9]{16}'), 
@@ -34,8 +83,8 @@ CREATE TABLE categoria(
 CREATE DOMAIN DEPCRED AS VARCHAR CHECK(VALUE IN ('Deposito','Credito'));
 
 CREATE TABLE conto(
-	numero SERIAL PRIMARY KEY,
-	amm_tettomax DECIMAL(12,2) NOT NULL CHECK (amm_tettomax >= 0),
+	numero INTEGER DEFAULT get_first_free_conto() PRIMARY KEY,
+	amm_tettomax DECIMAL(19,4) NOT NULL CHECK (amm_tettomax >= 0),
 	tipo DEPCRED NOT NULL,
 	scadenza_giorni INTEGER CHECK (scadenza_giorni >= 1 AND scadenza_giorni <= 366 AND ((tipo = 'Credito' AND scadenza_giorni IS NOT NULL AND giorno_iniziale IS NOT NULL) OR (tipo = 'Deposito' AND scadenza_giorni IS NULL AND giorno_iniziale IS NULL))),
 	giorno_iniziale INTEGER CHECK (giorno_iniziale >= 1 AND giorno_iniziale <=31),
@@ -47,30 +96,30 @@ CREATE TABLE conto(
 CREATE TABLE spesa(
 	conto INTEGER REFERENCES conto(numero) NOT NULL
 	,
-	id_op SERIAL,
+	id_op INTEGER DEFAULT get_first_free_spesa(conto),
 	data DATE NOT NULL,
 	categoria_user INTEGER,
 	categoria_nome VARCHAR(20),
 	descrizione VARCHAR(200),
-	valore DECIMAL(12,2) NOT NULL CHECK (valore > 0),
+	valore DECIMAL(19,4) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op),
 	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria(userid,nome)
 	);
 
 CREATE TABLE entrate(
 	conto INTEGER REFERENCES conto(numero),
-	id_op SERIAL,
+	id_op INTEGER DEFAULT get_first_free_entrata(conto),
 	data DATE NOT NULL,
 	descrizione VARCHAR(100),
-	valore DECIMAL(12,2) NOT NULL CHECK (valore > 0),
+	valore DECIMAL(19,4) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op)
 	);
 
 CREATE TABLE bilancio(
 	userid INTEGER REFERENCES utente(userid),
 	nome varchar(20),
-	ammontareprevisto DECIMAL(12,2) NOT NULL CHECK (ammontareprevisto >= 0),
-	ammontarerestante DECIMAL(12,2) NOT NULL,
+	ammontareprevisto DECIMAL(19,4) NOT NULL CHECK (ammontareprevisto >= 0),
+	ammontarerestante DECIMAL(19,4) NOT NULL,
 	periodovalidità INTEGER NOT NULL CHECK (periodovalidità > 0),
 	data_partenza DATE NOT NULL,
 	n_conto INTEGER REFERENCES conto(numero) NOT NULL,
