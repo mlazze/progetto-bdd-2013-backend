@@ -22,16 +22,19 @@ F8. conto.amm_tettomax >=0
 
 F9. giorno_iniz <= 31
 
-10. data spesa/entra > conto.data_creazione (funzione)
-10.5 data partenza bilancio > conto.data_creazione (funzione)
+F10. data spesa/entra > conto.data_creazione (funzione)
+F10.5 data partenza bilancio > conto.data_creazione (funzione)
 F11. nome/cogn NOTNULL?
 
 F12. trigger: utente -> crea profilo
-12.1 trigger: inserimento conto di cred -> conto_di_rif è DI DEPOSITO?
-12.2 trigger: 10
-12.3 trigger: 10.5
+F12.1 trigger: inserimento conto di cred -> conto_di_rif è DI DEPOSITO?
+F12.2 trigger: 10
+F12.3 trigger: 10.5
+F12.31 trigger: creazione bilancio: amm_rest= amm_prev (da fare??)
 risolto punto 1.5 12.4 trigger on failed insert: 13?
-12.5 recursively check tha supercat has a NULL in supercat
+chissenefrega 12.5 recursively check tha supercat has a NULL in supercat
 F12.6 trigger: sequenza entrate/spese trigger
 
 F13. userid buchi! (funzione entrate 1.5)
+
+20. Trigger: Creare cat.standard

@@ -81,6 +81,9 @@ CREATE OR REPLACE FUNCTION create_default_profile() RETURNS TRIGGER AS $$
 	$$ LANGUAGE plpgsql;
 
 
+
+
+
 CREATE TABLE utente(
 	userid INTEGER DEFAULT get_first_free_utente() PRIMARY KEY , 
 	nome VARCHAR(30), 
@@ -101,7 +104,7 @@ CREATE TABLE profilo(
 	valuta CHAR DEFAULT '€' NOT NULL REFERENCES valuta(simbolo)
 	);
 
-CREATE TRIGGER create_profile AFTER INSERT ON utente FOR EACH ROW EXECUTE PROCEDURE create_default_profile();
+CREATE TRIGGER tr_create_profile AFTER INSERT ON utente FOR EACH ROW EXECUTE PROCEDURE create_default_profile();
 
 
 CREATE TABLE categoria(
@@ -126,6 +129,23 @@ CREATE TABLE conto(
 	conto_di_rif INTEGER CHECK ((tipo = 'Credito' and conto_di_rif IS NOT NULL) OR (tipo = 'Deposito' AND conto_di_rif IS NULL)) REFERENCES conto(numero)
 	);
 
+CREATE OR REPLACE FUNCTION check_oncredit_debt_exists() RETURNS TRIGGER AS $$
+		DECLARE
+			a conto.tipo%TYPE;
+		BEGIN
+			IF NEW.tipo = 'Credito' THEN
+				SELECT tipo INTO a FROM conto WHERE numero = NEW.conto_di_rif;
+				IF a = 'Credito' THEN
+					--DELETE FROM conto WHERE numero=NEW.numero;
+					RAISE EXCEPTION 'REFERRAL ACCOUNT HAS TYPE Credito';
+				END IF;
+			END IF;
+			RETURN NEW;
+		END;
+	$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_check_referral_account_existance BEFORE INSERT ON conto FOR EACH ROW EXECUTE PROCEDURE check_oncredit_debt_exists();
+
 CREATE TABLE spesa(
 	conto INTEGER REFERENCES conto(numero) NOT NULL
 	,
@@ -148,19 +168,50 @@ CREATE TABLE entrata(
 	PRIMARY KEY(conto,id_op)
 	);
 
-CREATE TRIGGER upd_entrata_id AFTER INSERT ON entrata FOR EACH ROW EXECUTE PROCEDURE update_entrata_id();
-CREATE TRIGGER upd_spesa_id AFTER INSERT ON spesa FOR EACH ROW EXECUTE PROCEDURE update_spesa_id();
+CREATE OR REPLACE FUNCTION check_date_spesa_entrata() RETURNS TRIGGER AS $$
+		DECLARE
+			data_conto conto.data_creazione%TYPE;
+		BEGIN
+			SELECT data_creazione INTO data_conto FROM conto WHERE numero = NEW.conto;
+			IF data_conto > NEW.data THEN
+				RAISE EXCEPTION 'SPESA/ENTRATA IN DATA PRECEDENTE ALLA CREAZIONE DEL CONTO';
+			END IF;
+			RETURN NEW;
+		END;
+	$$ LANGUAGE plpgsql;
 
+CREATE TRIGGER tr_check_date_spesa BEFORE INSERT ON spesa FOR EACH ROW EXECUTE PROCEDURE check_date_spesa_entrata();
+
+CREATE TRIGGER tr_check_date_entrata BEFORE INSERT ON entrata FOR EACH ROW EXECUTE PROCEDURE check_date_spesa_entrata();
+
+CREATE TRIGGER tr_upd_entrata_id AFTER INSERT ON entrata FOR EACH ROW EXECUTE PROCEDURE update_entrata_id();
+CREATE TRIGGER tr_upd_spesa_id AFTER INSERT ON spesa FOR EACH ROW EXECUTE PROCEDURE update_spesa_id();
+
+--user_id e n_conto anche se sono dipendenti li tengo entrambi perche diventerebbe esoso cercare i bilanci di un certo utente
 CREATE TABLE bilancio(
 	userid INTEGER REFERENCES utente(userid),
 	nome varchar(20),
 	ammontareprevisto DECIMAL(19,4) NOT NULL CHECK (ammontareprevisto >= 0),
 	ammontarerestante DECIMAL(19,4) NOT NULL,
-	periodovalidità INTEGER NOT NULL CHECK (periodovalidità > 0),
+	periodovalidita INTEGER NOT NULL CHECK (periodovalidita > 0),
 	data_partenza DATE NOT NULL,
 	n_conto INTEGER REFERENCES conto(numero) NOT NULL,
 	PRIMARY KEY(userid,nome)
 	);
+
+CREATE OR REPLACE FUNCTION check_date_bilancio() RETURNS TRIGGER AS $$
+		DECLARE
+			data_conto conto.data_creazione%TYPE;
+		BEGIN
+			SELECT data_creazione INTO data_conto FROM conto WHERE numero = NEW.n_conto;
+			IF data_conto > NEW.data_partenza THEN
+				RAISE EXCEPTION 'BILANCIO IN DATA PRECEDENTE ALLA CREAZIONE DEL CONTO';
+			END IF;
+			RETURN NEW;
+		END;
+	$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_check_date BEFORE INSERT ON bilancio FOR EACH ROW EXECUTE PROCEDURE check_date_bilancio();
 
 CREATE TABLE associazione_bilancio(
 	userid INTEGER,
