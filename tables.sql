@@ -73,9 +73,18 @@ CREATE OR REPLACE FUNCTION update_entrata_id() RETURNS TRIGGER AS $$
 		END;
 	$$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION create_default_profile() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION create_default_user() RETURNS TRIGGER AS $$
 		BEGIN
+			--profilo
 			INSERT INTO profilo (userid) VALUES (NEW.userid);
+			--categorie di spesa
+			INSERT INTO categoria (userid,nome) VALUES
+			(NEW.userid,'Alimentazione'),
+			(NEW.userid,'Tributi e Servizi'),
+			(NEW.userid,'Cura della Persona e Abbigliamento'),
+			(NEW.userid,'Sport, Cultura e Tempo Libero'),
+			(NEW.userid,'Casa e Lavoro');
+
 			RETURN NEW;
 		END;
 	$$ LANGUAGE plpgsql;
@@ -104,16 +113,15 @@ CREATE TABLE profilo(
 	valuta CHAR DEFAULT '€' NOT NULL REFERENCES valuta(simbolo)
 	);
 
-CREATE TRIGGER tr_create_profile AFTER INSERT ON utente FOR EACH ROW EXECUTE PROCEDURE create_default_profile();
+CREATE TRIGGER tr_create_defaults AFTER INSERT ON utente FOR EACH ROW EXECUTE PROCEDURE create_default_user();
 
 
 CREATE TABLE categoria(
 	userid INTEGER REFERENCES utente(userid) NOT NULL, 
-	nome VARCHAR(20), 
-	supercat_utente INTEGER, 
-	supercat_nome VARCHAR(20), 
+	nome VARCHAR(40), 
+	supercat_nome VARCHAR(40), 
 	PRIMARY KEY(userid, nome), 
-	FOREIGN KEY(supercat_utente, supercat_nome) REFERENCES categoria(userid, nome)
+	FOREIGN KEY(userid, supercat_nome) REFERENCES categoria(userid, nome)
 	);
 
 CREATE DOMAIN DEPCRED AS VARCHAR CHECK(VALUE IN ('Deposito','Credito'));
