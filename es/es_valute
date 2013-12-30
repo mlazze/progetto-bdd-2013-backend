@@ -1,4 +1,4 @@
-INSERT INTO TABLE valuta(simbolo) VALUES
+INSERT INTO valuta(simbolo) VALUES
 ('$'),
 ('€'),
 ('£'),

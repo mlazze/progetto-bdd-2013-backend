@@ -31,7 +31,7 @@ CREATE OR REPLACE FUNCTION get_first_free_spesa(INTEGER) RETURNS INTEGER AS $$
 		DECLARE
 			a INTEGER;
 		BEGIN
-			SELECT MAX(id_op) INTO a FROM spesa WHERE userid = $1;
+			SELECT MAX(id_op) INTO a FROM spesa WHERE conto = $1;
 			IF a IS NULL THEN
 				a:=0;
 			END IF;
@@ -39,17 +39,47 @@ CREATE OR REPLACE FUNCTION get_first_free_spesa(INTEGER) RETURNS INTEGER AS $$
 		END;
 	$$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION update_spesa_id() RETURNS TRIGGER AS $$ 
+		DECLARE
+			a INTEGER;
+		BEGIN
+			SELECT get_first_free_spesa(NEW.conto) INTO a;
+			UPDATE spesa SET id_op = a WHERE id_op = 0;
+			RETURN NEW;
+		END;
+	$$ LANGUAGE plpgsql;
+
+
+
 CREATE OR REPLACE FUNCTION get_first_free_entrata(INTEGER) RETURNS INTEGER AS $$
 		DECLARE
 			a INTEGER;
 		BEGIN
-			SELECT MAX(id_op) INTO a FROM spesa WHERE userid = $1;
+			SELECT MAX(id_op) INTO a FROM entrata WHERE conto = $1;
 			IF a IS NULL THEN
 				a:=0;
 			END IF;
 			RETURN a+1;
 		END;
 	$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION update_entrata_id() RETURNS TRIGGER AS $$ 
+		DECLARE
+			a INTEGER;
+		BEGIN
+			SELECT get_first_free_entrata(NEW.conto) INTO a;
+			UPDATE entrata SET id_op = a WHERE id_op = 0;
+			RETURN NEW;
+		END;
+	$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION create_default_profile() RETURNS TRIGGER AS $$
+		BEGIN
+			INSERT INTO profilo (userid) VALUES (NEW.userid);
+			RETURN NEW;
+		END;
+	$$ LANGUAGE plpgsql;
+
 
 CREATE TABLE utente(
 	userid INTEGER DEFAULT get_first_free_utente() PRIMARY KEY , 
@@ -70,6 +100,9 @@ CREATE TABLE profilo(
 	userid INTEGER PRIMARY KEY REFERENCES utente(userid),
 	valuta CHAR DEFAULT '€' NOT NULL REFERENCES valuta(simbolo)
 	);
+
+CREATE TRIGGER create_profile AFTER INSERT ON utente FOR EACH ROW EXECUTE PROCEDURE create_default_profile();
+
 
 CREATE TABLE categoria(
 	userid INTEGER REFERENCES utente(userid) NOT NULL, 
@@ -96,7 +129,7 @@ CREATE TABLE conto(
 CREATE TABLE spesa(
 	conto INTEGER REFERENCES conto(numero) NOT NULL
 	,
-	id_op INTEGER DEFAULT get_first_free_spesa(conto),
+	id_op INTEGER DEFAULT 0,
 	data DATE NOT NULL,
 	categoria_user INTEGER,
 	categoria_nome VARCHAR(20),
@@ -106,14 +139,17 @@ CREATE TABLE spesa(
 	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria(userid,nome)
 	);
 
-CREATE TABLE entrate(
+CREATE TABLE entrata(
 	conto INTEGER REFERENCES conto(numero),
-	id_op INTEGER DEFAULT get_first_free_entrata(conto),
+	id_op INTEGER DEFAULT 0,
 	data DATE NOT NULL,
 	descrizione VARCHAR(100),
 	valore DECIMAL(19,4) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op)
 	);
+
+CREATE TRIGGER upd_entrata_id AFTER INSERT ON entrata FOR EACH ROW EXECUTE PROCEDURE update_entrata_id();
+CREATE TRIGGER upd_spesa_id AFTER INSERT ON spesa FOR EACH ROW EXECUTE PROCEDURE update_spesa_id();
 
 CREATE TABLE bilancio(
 	userid INTEGER REFERENCES utente(userid),

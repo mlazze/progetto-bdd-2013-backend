@@ -3,8 +3,9 @@ err
 F1. reset sequence? ALTER SEQUENCE seq RESTART;
 
 F1.5 sequenza entrate/spese (funzione cerca ultima, prendi id e aggiungi 1)
+	SPECIFICA: prendo sempre il max+1 perchè se cancello 2 e ricreo NON VOGLIO che si crei col numero 2, dato che poi ci potrebbero essere disambiguità;
 
-2. constraints vari
+F2. constraints vari
 
 F3. vincolo cfiscale = 16lettere
 
@@ -25,12 +26,12 @@ F9. giorno_iniz <= 31
 10.5 data partenza bilancio > conto.data_creazione (funzione)
 F11. nome/cogn NOTNULL?
 
-12. trigger: utente -> crea profilo
+F12. trigger: utente -> crea profilo
 12.1 trigger: inserimento conto di cred -> conto_di_rif è DI DEPOSITO?
 12.2 trigger: 10
 12.3 trigger: 10.5
-12.4 trigger on failed insert: 13?
+risolto punto 1.5 12.4 trigger on failed insert: 13?
 12.5 recursively check tha supercat has a NULL in supercat
-12.6 trigger: sequenza entrate/spese trigger
+F12.6 trigger: sequenza entrate/spese trigger
 
 F13. userid buchi! (funzione entrate 1.5)

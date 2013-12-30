@@ -23,3 +23,54 @@ CREATE DOMAIN NomeDominio AS TipoDatoBase [DefaultValue][{Vincoli}]
 ALTER TABLE NomeTabella ALTERBLABLA
 
 DROP BlaBla [RESTRICT|CASCADE] (restrict=solo se vuoto)
+
+UPDATE <nome> SET <col> = {expr | DEFAULT} [WHERE cond];
+
+CREATE OR REPLACE FUNCTION NomeFunz ([<par>], [OUT <out>]) [RETURNS <tipo>] AS $$
+	<corpo>
+$$ LANGUAGE plpgsql;
+
+se <par> non ha some $1, $2, ... $n
+
+<corpo> =
+	[DECLARE] variabili;
+	BEGIN
+		[EXCEPTION WHEN]
+	END;
+
+variabili =
+	<nome> [CONSTANT] <tipo> [NOT NULL] [{DEFAULT | := } expr];
+
+	<nome> <nometab.nomeattr>%TYPE;
+	<nome> <nometab>%ROWTYPE;
+
+commenti: -- o /* */
+
+IF THEN ELSIF ELSE END IF;
+
+LOOP istr [EXIT | EXIT WHEN] END LOOP;
+
+WHILE LOOP END LOOP;
+
+FOR <var> IN [REVERSE] <exprin>..<exprend> [BY <exprpasso>] LOOP END LOOP;
+
+
+CREATE TRIGGER <nome> {BEFORE | AFTER} <evento> ON <tabella> [FOR EACH {ROW | STATEMENT}] EXECUTE PROCEDURE <nomefunz>
+
+<evento> = {INSERT|UPDATE|DELETE} (posso usare OR)
+
+<nomefunz> deve essere una funzione del tipo 
+	CREATE OR REPLACE FUNCTION <nome>(NO_PAR) RETURNS TRIGGER AS $$ $$ LANGUAGE plpgsql;
+
+nella funzione posso usare le var NEW e OLD.
+
+RAISE <lvl> '<mex>'
+
+<lvl> = DEBUG, LOG, INFO, NOTICE, WARNING, EXCEPTION
+
+DEBUG = solo se in DEBUG
+LOG = solo sul log
+INFO = stdopt
+NOTICE = log e stdopt
+WARNING = debug, log, stdopt
+EXCEPTION = blocca
