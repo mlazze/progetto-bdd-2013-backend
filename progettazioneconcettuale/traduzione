@@ -13,4 +13,8 @@ Relazioni:
 
 	profilo(KEY(utente.ID,idprof), valuta)
 
-	associazione_bilancio(KEY(categoria.utente.ID, categoria.nome, conto.n#, bilancio.idbil))
+	RIMOSSA! -associazione_bilancio(KEY(categoria.utente.ID, categoria.nome, conto.n#, bilancio.idbil))- motivazione in err 22
+
+	bilancio_conto(KEY(bilancio.utente.ID, bilancio.idbil, conto.N#))
+
+	bilancio_cat(KEY(bilancio.utente.ID,bilancio.idbil,categoria.nome))

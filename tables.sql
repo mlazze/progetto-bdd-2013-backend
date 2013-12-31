@@ -221,7 +221,7 @@ CREATE OR REPLACE FUNCTION check_date_bilancio() RETURNS TRIGGER AS $$
 
 CREATE TRIGGER tr_check_date BEFORE INSERT ON bilancio FOR EACH ROW EXECUTE PROCEDURE check_date_bilancio();
 
-CREATE TABLE associazione_bilancio(
+/*CREATE TABLE associazione_bilancio(
 	userid INTEGER,
 	nome_cat VARCHAR(20),
 	conto INTEGER REFERENCES conto(numero),
@@ -229,5 +229,22 @@ CREATE TABLE associazione_bilancio(
 	PRIMARY KEY (userid,nome_cat,conto,bilancio),
 	FOREIGN KEY (userid,nome_cat) REFERENCES categoria(userid,nome),
 	FOREIGN KEY (userid,bilancio) REFERENCES bilancio(userid,nome)
+	);*/
+
+CREATE TABLE bilancio_conto(
+	userid INTEGER, --no need to reference to user, else double-check
+	nome_bil VARCHAR(40),
+	numero_conto INTEGER REFERENCES conto(numero),
+	PRIMARY KEY(userid,nome_bil,numero_conto),
+	FOREIGN KEY(userid,nome_bil) REFERENCES bilancio(userid,nome)
+	);
+
+CREATE TABLE bilancio_categoria(
+	userid INTEGER, --no need to reference to user, else double-check
+	nome_bil VARCHAR(40),
+	nome_cat VARCHAR(40),
+	PRIMARY KEY(userid,nome_bil,nome_cat),
+	FOREIGN KEY(userid,nome_bil) REFERENCES bilancio(userid,nome),
+	FOREIGN KEY(userid,nome_cat) REFERENCES categoria(userid,nome)
 	);
 

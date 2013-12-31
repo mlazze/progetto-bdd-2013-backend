@@ -1,7 +1,7 @@
 Entità: Conto (Tipologia, Data creazione, KEYn#)
 			deposito (Ammontare)
 			credito (Tettomax, Scadenza) 
-		Spese/Entrate (data 0:1, categoria, descrizione 0:1, valore) debole -suun-
+		Spese/Entrate (data 0:1, descrizione 0:1, valore) debole -suun-
 			Spese
 			Entrate
 		Categorie (nome) debole -crea-
@@ -12,7 +12,8 @@ Entità: Conto (Tipologia, Data creazione, KEYn#)
 
 Ass:	Utente -haun- Conto 0:N 1:1 (datacreazione)
 		credito 1:1 -riferitoa- deposito 0:N
-		Spese -suun- to 1:1 0:N (valuta)
+		Spese -suun- Conto 1:1 0:N (valuta)
+		Spese/Entr -relativea- Categoria 0:1 0:N
 		Utente -definisce- Bilancio 0:N 1:1 (datadefinizione)
 		Bilancio -associato- Conto 1:1 0:N
 		Categoria -stabilito- Conto Bilancio 1:1 0:N 0:N
@@ -41,6 +42,8 @@ Entità: Conto (Data creazione, KEYn#, Ammontare/tetto, scadenza, Tipo)
 Ass:	- Utente -haun- Conto 0:N 1:1 (datacreazione)
 		- Conto 1:1 -riferitoa- 0:N
 		- Spese -suun- Conto 1:1 0:N (valuta)
+		- Spese-relativea- Categoria 0:1 0:N
+		- Entr -relativea- Categoria 0:1 0:N
 		- Utente -definisce- Bilancio 0:N 1:1 (datadefinizione)
 		- Bilancio -associato- Conto 1:1 0:N
 		- Categoria -stabilito- Conto Bilancio 1:1 0:N 0:N
