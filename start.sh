@@ -35,5 +35,9 @@ echo populating conto
 echo ----
 psql -U postgres -h localhost -q bdd < es/es_conto
 echo ----
+echo populating bilancio
+echo ----
+psql -U postgres -h localhost -q bdd < es/es_bilancio
+echo ----
 echo END
 echo ----

@@ -7,7 +7,7 @@ Relazioni:
 
 	categoria(KEY(utente.ID, nome), -supercat- categoria.utente.ID, -supercat- categoria.nome) rimuovo categoria.utente.ID per ridondanza
 
-	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza, -associato- conto.n# NOT NULL)
+	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza, )
 
 	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,datadinascita,comunedinascita,nazioneresidenza, indirizzo, telefono)
 

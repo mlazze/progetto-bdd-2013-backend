@@ -58,3 +58,9 @@ F26. Add dates everywhere
 28. Funct: Fix everything til now
 
 F29. trigger check credit_data after debt
+
+F30. Trigger spesa -> aggiorna e controlla conto
+
+F31. Trigger spesa -> aggiorna e notifica bilancio
+
+32. Fixare funzione data_bilancio_check controllare anche utente,blabla,tipo credito -> debito

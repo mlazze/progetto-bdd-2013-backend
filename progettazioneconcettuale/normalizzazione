@@ -9,13 +9,13 @@ Normalizzazione:
 
 	categoria(KEY(utente.ID, nome), -supercat- categoria.nome)
 
-	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza, -associato- conto.n# NOT NULL)
+	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza)
 
 	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,datadinascita,comunedinascita,nazioneresidenza, indirizzo, telefono)
 
 	profilo(KEY(utente.ID), valuta)
 
-	RIMOSSA! -associazione_bilancio(KEY(categoria.utente.ID, categoria.nome, conto.n#, bilancio.idbil))- motivazione in err 22
+	RIMOSSA! -associazione_bilancio(KEY(categoria.utente.ID, categoria.nome, bilancio.idbil))- motivazione in err 22
 
 	bilancio_conto(KEY(bilancio.utente.ID, bilancio.idbil, conto.N#))
 

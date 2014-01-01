@@ -15,7 +15,6 @@ Ass:	Utente -haun- Conto 0:N 1:1 (datacreazione)
 		Spese -suun- Conto 1:1 0:N (valuta)
 		Spese/Entr -relativea- Categoria 0:1 0:N
 		Utente -definisce- Bilancio 0:N 1:1 (datadefinizione)
-		Bilancio -associato- Conto 1:1 0:N
 		Categoria -stabilito- Conto Bilancio 1:1 0:N 0:N
 		Utente -crea- Categoria 0:N 1:1
 		Utente -opz- profilo 1:1 1:1
@@ -45,12 +44,10 @@ Ass:	- Utente -haun- Conto 0:N 1:1 (datacreazione)
 		- Spese-relativea- Categoria 0:1 0:N
 		- Entr -relativea- Categoria 0:1 0:N
 		- Utente -definisce- Bilancio 0:N 1:1 (datadefinizione)
-		- Bilancio -associato- Conto 1:1 0:N
 		- Categoria -stabilito- Conto Bilancio 1:1 0:N 0:N
 		- Utente -crea- Categoria 0:N 1:1
 		- Categoria -supercat- Categoria 0:1 0:N
 		- Utente -opz- profilo 1:1 1:1
-		/* lascio sia associato che stabilito perchè se lasciassi solo stabilito non potrei associare un bilancio a un conto senza stabilirne una cat
 
 
 Aggiungere categorie doppie per entrata e spesa
