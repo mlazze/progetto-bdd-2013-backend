@@ -64,3 +64,5 @@ F30. Trigger spesa -> aggiorna e controlla conto
 F31. Trigger spesa -> aggiorna e notifica bilancio
 
 32. Fixare funzione data_bilancio_check controllare anche utente,blabla,tipo credito -> debito
+
+33. Trigger spesa -> bilancio RECURSIVE!
