@@ -78,12 +78,17 @@ CREATE OR REPLACE FUNCTION create_default_user() RETURNS TRIGGER AS $$
 			--profilo
 			INSERT INTO profilo (userid) VALUES (NEW.userid);
 			--categorie di spesa
-			INSERT INTO categoria (userid,nome) VALUES
+			INSERT INTO categoria_spesa(userid,nome) VALUES
 			(NEW.userid,'Alimentazione'),
 			(NEW.userid,'Tributi e Servizi'),
 			(NEW.userid,'Cura della Persona e Abbigliamento'),
 			(NEW.userid,'Sport, Cultura e Tempo Libero'),
 			(NEW.userid,'Casa e Lavoro');
+			--categorie di entrata
+			INSERT INTO categoria_entrata(userid,nome) VALUES
+			(NEW.userid,'Reddito'),
+			(NEW.userid,'Proventi Finanziari'),
+			(NEW.userid,'Vendite');
 
 			RETURN NEW;
 		END;
@@ -116,12 +121,20 @@ CREATE TABLE profilo(
 CREATE TRIGGER tr_create_defaults AFTER INSERT ON utente FOR EACH ROW EXECUTE PROCEDURE create_default_user();
 
 
-CREATE TABLE categoria(
+CREATE TABLE categoria_entrata(
 	userid INTEGER REFERENCES utente(userid) NOT NULL, 
 	nome VARCHAR(40), 
 	supercat_nome VARCHAR(40), 
 	PRIMARY KEY(userid, nome), 
-	FOREIGN KEY(userid, supercat_nome) REFERENCES categoria(userid, nome)
+	FOREIGN KEY(userid, supercat_nome) REFERENCES categoria_entrata(userid, nome)
+	);
+
+CREATE TABLE categoria_spesa(
+	userid INTEGER REFERENCES utente(userid) NOT NULL, 
+	nome VARCHAR(40), 
+	supercat_nome VARCHAR(40), 
+	PRIMARY KEY(userid, nome), 
+	FOREIGN KEY(userid, supercat_nome) REFERENCES categoria_spesa(userid, nome)
 	);
 
 CREATE DOMAIN DEPCRED AS VARCHAR CHECK(VALUE IN ('Deposito','Credito'));
@@ -164,16 +177,19 @@ CREATE TABLE spesa(
 	descrizione VARCHAR(200),
 	valore DECIMAL(19,4) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op),
-	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria(userid,nome)
+	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria_spesa(userid,nome)
 	);
 
 CREATE TABLE entrata(
 	conto INTEGER REFERENCES conto(numero),
 	id_op INTEGER DEFAULT 0,
+	categoria_user INTEGER,
+	categoria_nome VARCHAR(20),
 	data DATE NOT NULL,
 	descrizione VARCHAR(100),
 	valore DECIMAL(19,4) NOT NULL CHECK (valore > 0),
-	PRIMARY KEY(conto,id_op)
+	PRIMARY KEY(conto,id_op),
+	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria_entrata(userid,nome)
 	);
 
 CREATE OR REPLACE FUNCTION check_date_spesa_entrata() RETURNS TRIGGER AS $$
@@ -245,6 +261,6 @@ CREATE TABLE bilancio_categoria(
 	nome_cat VARCHAR(40),
 	PRIMARY KEY(userid,nome_bil,nome_cat),
 	FOREIGN KEY(userid,nome_bil) REFERENCES bilancio(userid,nome),
-	FOREIGN KEY(userid,nome_cat) REFERENCES categoria(userid,nome)
+	FOREIGN KEY(userid,nome_cat) REFERENCES categoria_spesa(userid,nome)
 	);
 

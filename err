@@ -39,10 +39,14 @@ F13. userid buchi! (funzione entrate 1.5)
 
 F20. Trigger: Creare cat.standard
 
-21. categorie sia di spesa che di entrata!
+F21. categorie sia di spesa che di entrata!
 
 22. Bilancio <-> Conto <-> Categoria
 	dato che è N:M:K non posso fare tabella Key(bilancio), Key(Conto), Key(categoria), perchè per ogni bilancio avrei più conti e più categorie, quindi mi troverei a dovere togliere alcuni valori (es: Bilancio A, associato a conto 1,2,3 e cat c1,c2,c3. Le tuple della rel three-way sarebbero A1c1,A2c2,A3c3, ma anche le spese cul conto 2 nella categoria c1 dovrebbero rientrare, ma qua non rientrano) o inserirli tutti (esempio sopra: tuple: A1c1,A1c2,A1c3,A2c1,... e sono troppe). Per cui creo due tabelle una per l'associazione Bilancio <-> Conto e una per Bilancio <-> Cat, cosicchè le tuple in B<->Conto diventano A1,A2,A3 e quelle B<->Cat Ac1,Ac2,Ac3. Conto e Cat non necessitano di associazione, perchè ci sono operazioni della stessa cat su più conti e op dello stesso conto su più cat.
 	Ristrutturo Il tutto.
 
 23. Rivedere normalizzazione
+
+24. Rivedere TUTTO
+
+25. Come trigger che fa resettare bilancio e credito?
