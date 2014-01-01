@@ -37,10 +37,10 @@ Entità: Conto (Data creazione, KEYn#, Ammontare/tetto, scadenza, Tipo)
 		Bilancio (idbil, ammontare previsto , periodo validità, data partenza) debole -definisce- 
 		Utente (nome,cognome,email,indirizzo,KEYID,cfiscale,data di nascita,comune di nascita, nazione residenza)
 			keyid perchè non riesco a trovarne uno abbastanza semplice
-		Profilo(idprof, opzionivarie) debole -opz-
+		Profilo(opzionivarie) debole -opz-
 
 Ass:	- Utente -haun- Conto 0:N 1:1 (datacreazione)
-		- Conto 1:1 -riferitoa- 0:N
+		- Conto 1:1 -riferitoa- Conto 0:N
 		- Spese -suun- Conto 1:1 0:N (valuta)
 		- Spese-relativea- Categoria 0:1 0:N
 		- Entr -relativea- Categoria 0:1 0:N
@@ -51,3 +51,6 @@ Ass:	- Utente -haun- Conto 0:N 1:1 (datacreazione)
 		- Categoria -supercat- Categoria 0:1 0:N
 		- Utente -opz- profilo 1:1 1:1
 		/* lascio sia associato che stabilito perchè se lasciassi solo stabilito non potrei associare un bilancio a un conto senza stabilirne una cat
+
+
+Aggiungere categorie doppie per entrata e spesa

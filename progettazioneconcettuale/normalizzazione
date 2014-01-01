@@ -1,25 +1,55 @@
 Normalizzazione:
 	è in 1NF;
 
-	è in 2NF;
-
-	3NF: tolgo datadinascita da utente perchè è calcolabile dal cf
-
-	conto(KEY N#, amm_tettomax NOTNULL, scadenza, tipo, data iniziale, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -rferitoa- conto_di_rif)
+	conto(KEY N#, amm_tettomax NOTNULL, scadenza, tipo, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -riferitoa- conto_di_rif)
 
 	spesa(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
 
 	entrata(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
 
-	categoria(KEY(utente.ID, nome), -supercat- categoria.utente.ID, -supercat- categoria.nome)
+	categoria(KEY(utente.ID, nome), -supercat- categoria.nome)
 
 	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza, -associato- conto.n# NOT NULL)
 
-	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,comunedinascita,nazioneresidenza, indirizzo, telefono)
+	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,datadinascita,comunedinascita,nazioneresidenza, indirizzo, telefono)
+
+	profilo(KEY(utente.ID), valuta)
+
+	RIMOSSA! -associazione_bilancio(KEY(categoria.utente.ID, categoria.nome, conto.n#, bilancio.idbil))- motivazione in err 22
+
+	bilancio_conto(KEY(bilancio.utente.ID, bilancio.idbil, conto.N#))
+
+	bilancio_cat(KEY(bilancio.utente.ID,bilancio.idbil,categoria.nome))
+
+	è in 2NF;
+
+	3NF: tolgo datadinascita da utente perchè è calcolabile dal cf
+
+	conto(KEY N#, amm_tettomax NOTNULL, scadenza, tipo, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -rferitoa- conto_di_rif)
+
+	spesa(KEY(conto.n#, idop), data,categoria.nome,categoria.utenteid,descrizione,valore NOT NULL)
+
+	entrata(KEY(conto.n#, idop), data,categoria.userid,categoria.nome,descrizione,valore NOT NULL)
+
+	categoria(KEY(utente.ID, nome), -supercat- categoria.nome)
+
+	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza, -associato- conto.n# NOT NULL)
+
+	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,nazioneresidenza, indirizzo, telefono)
 
 	profilo(KEY(utente.ID,idprof), valuta)
 
-	associazione_bilancio(KEY(categoria.utente.ID, categoria.nome, conto.n#, bilancio.idbil))
+	bilancio_conto(KEY(bilancio.utente.ID, bilancio.idbil, conto.N#))
+
+	bilancio_cat(KEY(bilancio.utente.ID,bilancio.idbil,categoria.nome))
+
 
 
 	è in BCNF
+
+
+Aggiunte di supporto: nazione, valuta
+
+
+utente contiene informazioni dell'utente
+profilo contiene preferenze dell'utente
