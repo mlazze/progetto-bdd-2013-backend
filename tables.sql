@@ -143,8 +143,7 @@ CREATE TABLE conto(
 	numero INTEGER DEFAULT get_first_free_conto() PRIMARY KEY,
 	amm_tettomax DECIMAL(19,4) NOT NULL CHECK (amm_tettomax >= 0),
 	tipo DEPCRED NOT NULL,
-	scadenza_giorni INTEGER CHECK (scadenza_giorni >= 1 AND scadenza_giorni <= 366 AND ((tipo = 'Credito' AND scadenza_giorni IS NOT NULL AND giorno_iniziale IS NOT NULL) OR (tipo = 'Deposito' AND scadenza_giorni IS NULL AND giorno_iniziale IS NULL))),
-	giorno_iniziale INTEGER CHECK (giorno_iniziale >= 1 AND giorno_iniziale <=31),
+	scadenza_giorni INTEGER CHECK (scadenza_giorni >= 1 AND scadenza_giorni <= 366 AND ((tipo = 'Credito' AND scadenza_giorni IS NOT NULL) OR (tipo = 'Deposito' AND scadenza_giorni IS NULL))),
 	userid INTEGER REFERENCES utente(userid) NOT NULL,
 	data_creazione DATE NOT NULL,
 	conto_di_rif INTEGER CHECK ((tipo = 'Credito' and conto_di_rif IS NOT NULL) OR (tipo = 'Deposito' AND conto_di_rif IS NULL)) REFERENCES conto(numero)
@@ -153,6 +152,7 @@ CREATE TABLE conto(
 CREATE OR REPLACE FUNCTION check_oncredit_debt_exists() RETURNS TRIGGER AS $$
 		DECLARE
 			a conto.tipo%TYPE;
+			uservar conto.userid%TYPE;
 		BEGIN
 			IF NEW.tipo = 'Credito' THEN
 				SELECT tipo INTO a FROM conto WHERE numero = NEW.conto_di_rif;
@@ -160,12 +160,16 @@ CREATE OR REPLACE FUNCTION check_oncredit_debt_exists() RETURNS TRIGGER AS $$
 					--DELETE FROM conto WHERE numero=NEW.numero;
 					RAISE EXCEPTION 'REFERRAL ACCOUNT HAS TYPE Credito';
 				END IF;
+				SELECT userid INTO uservar FROM conto WHERE numero = NEW.conto_di_rif;
+				IF uservar <> NEW.userid THEN
+					RAISE EXCEPTION 'REFERRAL ACCOUNT DOESNT BELONG TO SAME USER';
+				END IF;
 			END IF;
 			RETURN NEW;
 		END;
 	$$ LANGUAGE plpgsql;
 
-CREATE TRIGGER tr_check_referral_account_existance BEFORE INSERT ON conto FOR EACH ROW EXECUTE PROCEDURE check_oncredit_debt_exists();
+CREATE TRIGGER tr_check_referral_account BEFORE INSERT ON conto FOR EACH ROW EXECUTE PROCEDURE check_oncredit_debt_exists();
 
 CREATE TABLE spesa(
 	conto INTEGER REFERENCES conto(numero) NOT NULL
