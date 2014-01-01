@@ -49,12 +49,12 @@ F22. Bilancio <-> Conto <-> Categoria
 
 24. Rivedere TUTTO
 
-25. Come trigger che fa resettare bilancio e credito?
+Risolto 28 25. Come trigger che fa resettare bilancio e credito?
 
-26. Add dates everywhere
+F26. Add dates everywhere
 
 27. Last used date
 
 28. Funct: Fix everything til now
 
-29. trigger check credit_data after debt
+F29. trigger check credit_data after debt

@@ -153,9 +153,11 @@ CREATE OR REPLACE FUNCTION check_oncredit_debt_exists() RETURNS TRIGGER AS $$
 		DECLARE
 			a conto.tipo%TYPE;
 			uservar conto.userid%TYPE;
+			datavar conto.data_creazione%TYPE;
+			debtvar conto%ROWTYPE;
 		BEGIN
 			IF NEW.tipo = 'Credito' THEN
-				SELECT tipo INTO a FROM conto WHERE numero = NEW.conto_di_rif;
+				/*SELECT tipo INTO a FROM conto WHERE numero = NEW.conto_di_rif;
 				IF a = 'Credito' THEN
 					--DELETE FROM conto WHERE numero=NEW.numero;
 					RAISE EXCEPTION 'REFERRAL ACCOUNT HAS TYPE Credito';
@@ -163,7 +165,18 @@ CREATE OR REPLACE FUNCTION check_oncredit_debt_exists() RETURNS TRIGGER AS $$
 				SELECT userid INTO uservar FROM conto WHERE numero = NEW.conto_di_rif;
 				IF uservar <> NEW.userid THEN
 					RAISE EXCEPTION 'REFERRAL ACCOUNT DOESNT BELONG TO SAME USER';
+				END IF;*/
+				SELECT * INTO debtvar FROM conto WHERE numero = NEW.conto_di_rif;
+				IF debtvar.tipo = 'Credito' THEN
+					RAISE EXCEPTION 'REFERRAL ACCOUNT HAS TYPE Credito';
 				END IF;
+				IF debtvar.userid <> NEW.userid THEN
+					RAISE EXCEPTION 'REFERRAL ACCOUNT DOESNT BELONG TO SAME USER';
+				END IF;
+				IF debtvar.data_creazione > NEW.data_creazione THEN
+					RAISE EXCEPTION 'REFERRAL ACCOUNT HAS A NEWER DATE THEN CREDIT ACCOUNT';
+				END IF;
+
 			END IF;
 			RETURN NEW;
 		END;
