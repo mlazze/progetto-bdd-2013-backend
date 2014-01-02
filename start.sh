@@ -39,5 +39,9 @@ echo populating bilancio
 echo ----
 psql -U postgres -h localhost -q bdd < es/es_bilancio
 echo ----
+echo starting funct
+echo ----
+psql -U postgres -h localhost -q bdd < es/es_inizio
+echo ----
 echo END
 echo ----

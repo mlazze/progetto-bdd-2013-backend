@@ -109,3 +109,10 @@ CREATE OR REPLACE FUNCTION fixall_til(DATE) RETURNS VOID AS $$
 
 	END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION upd_fixall() RETURNS VOID AS $$
+	BEGIN
+		PERFORM fixall_til(current_date);
+		UPDATE profilo SET last_date_used = current_date;
+	END;
+$$ LANGUAGE plpgsql;

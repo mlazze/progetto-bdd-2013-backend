@@ -19,7 +19,8 @@ CREATE TABLE valuta(
 
 CREATE TABLE profilo(
 	userid INTEGER PRIMARY KEY REFERENCES utente(userid),
-	valuta CHAR DEFAULT '€' NOT NULL REFERENCES valuta(simbolo)
+	valuta CHAR DEFAULT '€' NOT NULL REFERENCES valuta(simbolo),
+	last_date_used DATE
 	);
 
 CREATE TABLE categoria_entrata(
