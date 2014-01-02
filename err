@@ -53,7 +53,7 @@ Risolto 28 25. Come trigger che fa resettare bilancio e credito?
 
 F26. Add dates everywhere
 
-27. Last used date
+27. Last used date da rivedere
 
 F28. Funct: Fix everything til now
 
@@ -70,3 +70,5 @@ F33. Trigger spesa -> bilancio RECURSIVE!
 F34. periodi interval
 
 35. Conto di credito puòa vere entrate? (supposto di si) 
+
+F36. funct fixall -> bilancio -> recursive categories
