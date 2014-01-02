@@ -79,11 +79,30 @@ CREATE OR REPLACE FUNCTION check_oncredit_debt_exists() RETURNS TRIGGER AS $$
 
 CREATE TRIGGER tr_check_referral_account BEFORE INSERT ON conto FOR EACH ROW EXECUTE PROCEDURE check_oncredit_debt_exists();
 
---Controlla che la spesa/entrata sia successiva alla creazione del conto
+--depoisito iniziale
+CREATE OR REPLACE FUNCTION initial_deposit() RETURNS TRIGGER AS $$
+	BEGIN
+		IF NEW.tipo = 'Deposito' THEN
+			IF NEW.amm_disp > 0 THEN
+				insert into entrata(conto,data,descrizione,valore) VALUES (NEW.numero,NEW.data_creazione,'Deposito Iniziale',NEW.amm_disp);
+			END IF;
+		END IF;
+		RETURN NEW;
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_initial_deposit AFTER INSERT ON conto FOR EACH ROW EXECUTE PROCEDURE initial_deposit();
+
+--Controlla che la spesa/entrata sia successiva alla creazione del conto e che se è specificata una cat, quella sia dello stesso utente
 CREATE OR REPLACE FUNCTION check_date_spesa_entrata() RETURNS TRIGGER AS $$
 		DECLARE
 			data_conto conto.data_creazione%TYPE;
+			user_conto conto.userid%TYPE;
 		BEGIN
+			SELECT userid INTO user_conto FROM conto WHERE numero = NEW.conto;
+			IF user_conto <> NEW.categoria_user THEN
+				RAISE EXCEPTION 'CATEGORIA DI UTENTE DIFFERENTE DAL CONTO';
+			END IF;
 			SELECT data_creazione INTO data_conto FROM conto WHERE numero = NEW.conto;
 			IF data_conto > NEW.data THEN
 				RAISE EXCEPTION 'SPESA/ENTRATA IN DATA PRECEDENTE ALLA CREAZIONE DEL CONTO';
@@ -96,20 +115,38 @@ CREATE TRIGGER tr_check_date_spesa BEFORE INSERT ON spesa FOR EACH ROW EXECUTE P
 
 CREATE TRIGGER tr_check_date_entrata BEFORE INSERT ON entrata FOR EACH ROW EXECUTE PROCEDURE check_date_spesa_entrata();
 
---controlla che la creazione del bilancio non sia precedente alla creazione del conto
-/*CREATE OR REPLACE FUNCTION check_date_bilancio() RETURNS TRIGGER AS $$
+--controlla che la creazione del bilancio non sia precedente alla creazione del conto, che il conto appartenga alla stessa persona
+CREATE OR REPLACE FUNCTION check_date_bilancio() RETURNS TRIGGER AS $$
 		DECLARE
 			data_conto conto.data_creazione%TYPE;
+			data_bil bilancio.data_partenza%TYPE;
+			user_conto conto.userid%TYPE;
 		BEGIN
-			SELECT data_creazione INTO data_conto FROM conto WHERE numero = NEW.n_conto;
-			IF data_conto > NEW.data_partenza THEN
+			SELECT userid INTO user_conto FROM conto WHERE numero = NEW.numero_conto;
+			IF user_conto <> NEW.userid THEN
+				RAISE EXCEPTION 'CONTO NON APPARTENENTE ALLO STESSO UTENTE';
+			END IF;
+			SELECT data_creazione INTO data_conto FROM conto WHERE numero = NEW.numero_conto;
+			SELECT data_partenza INTO data_bil FROM bilancio WHERE userid = NEW.userid AND nome = NEW.nome_bil;
+			IF data_conto > data_bil THEN
 				RAISE EXCEPTION 'BILANCIO IN DATA PRECEDENTE ALLA CREAZIONE DEL CONTO';
 			END IF;
 			RETURN NEW;
 		END;
-	$$ LANGUAGE plpgsql;*/
+	$$ LANGUAGE plpgsql;
 
---CREATE TRIGGER tr_check_date BEFORE INSERT ON bilancio FOR EACH ROW EXECUTE PROCEDURE check_date_bilancio();
+CREATE TRIGGER tr_check_date BEFORE INSERT ON bilancio_conto FOR EACH ROW EXECUTE PROCEDURE check_date_bilancio();
+
+--setta ammontarerestante=ammontareprevisto alla creazione bilancio
+CREATE OR REPLACE FUNCTION set_default_amount_bilancio() RETURNS TRIGGER AS
+	$$
+		BEGIN
+		NEW.ammontarerestante=NEW.ammontareprevisto;
+		RETURN NEW;
+		END;
+	$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_set_default_amount BEFORE INSERT ON bilancio FOR EACH ROW EXECUTE PROCEDURE set_default_amount_bilancio();
 
  --trigger aggiorna conto dopo spesa
 CREATE OR REPLACE FUNCTION update_account_on_spesa() RETURNS TRIGGER AS
@@ -136,6 +173,7 @@ CREATE TRIGGER tr_upd_account_on_spesa BEFORE INSERT ON spesa FOR EACH ROW EXECU
 CREATE OR REPLACE FUNCTION update_account_on_entrata() RETURNS TRIGGER AS
 	$$
 		BEGIN
+			RAISE NOTICE 'operazione: % conto %, descr %, valore %, data %', NEW.id_op, NEW.conto,NEW.descrizione,NEW.valore, NEW.data;
 			UPDATE conto SET amm_disp = amm_disp + NEW.valore WHERE numero = NEW.conto;
 			RETURN NEW;
 		END;
@@ -149,12 +187,7 @@ CREATE OR REPLACE FUNCTION update_bilancio_on_spesa() RETURNS TRIGGER AS
 		DECLARE
 			bil_var bilancio%ROWTYPE;
 			user_var utente.userid%TYPE;
-			/*curs_bil CURSOR FOR SELECT * from BILANCIO WHERE nome IN (SELECT nome_bil FROM bilancio_conto WHERE numero_conto = NEW.conto) AND nome IN (SELECT nome_bil FROM bilancio_categoria WHERE nome_cat = NEW.categoria_nome);*/
 		BEGIN
-			/*OPEN curs_bil;
-			LOOP
-				FETCH curs_bil INTO bil_var;
-				EXIT WHEN SQLSTATE = 02000;*/
 			SELECT userid INTO user_var FROM conto WHERE numero = NEW.conto;
 			FOR bil_var IN SELECT * from BILANCIO WHERE nome IN (
 					SELECT nome_bil FROM bilancio_conto WHERE numero_conto = NEW.conto

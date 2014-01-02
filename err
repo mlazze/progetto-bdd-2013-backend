@@ -55,7 +55,7 @@ F26. Add dates everywhere
 
 27. Last used date
 
-28. Funct: Fix everything til now
+F28. Funct: Fix everything til now
 
 F29. trigger check credit_data after debt
 
@@ -63,6 +63,10 @@ F30. Trigger spesa -> aggiorna e controlla conto
 
 F31. Trigger spesa -> aggiorna e notifica bilancio
 
-32. Fixare funzione data_bilancio_check controllare anche utente,blabla,tipo credito -> debito
+F32. Fixare funzione data_bilancio_check controllare anche utente,blabla,tipo credito -> debito
 
 F33. Trigger spesa -> bilancio RECURSIVE!
+
+F34. periodi interval
+
+35. Conto di credito puòa vere entrate? (supposto di no) 

@@ -45,7 +45,7 @@ CREATE TABLE conto(
 	amm_disp DECIMAL(19,4) NOT NULL CHECK (amm_disp >= 0),
 	tipo DEPCRED NOT NULL,
 	tetto_max DECIMAL(19,4) CHECK (tetto_max >=0 AND ((tipo='Credito' AND tetto_max IS NOT NULL) OR (tipo='Deposito' AND tetto_max IS NULL))),
-	scadenza_giorni INTEGER CHECK (scadenza_giorni >= 1 AND scadenza_giorni <= 366 AND ((tipo = 'Credito' AND scadenza_giorni IS NOT NULL) OR (tipo = 'Deposito' AND scadenza_giorni IS NULL))),
+	scadenza_giorni INTERVAL CHECK (scadenza_giorni >= '1 day' AND ((tipo = 'Credito' AND scadenza_giorni IS NOT NULL) OR (tipo = 'Deposito' AND scadenza_giorni IS NULL))),
 	userid INTEGER REFERENCES utente(userid) NOT NULL,
 	data_creazione DATE NOT NULL,
 	conto_di_rif INTEGER CHECK ((tipo = 'Credito' and conto_di_rif IS NOT NULL) OR (tipo = 'Deposito' AND conto_di_rif IS NULL)) REFERENCES conto(numero)
@@ -67,9 +67,9 @@ CREATE TABLE spesa(
 CREATE TABLE entrata(
 	conto INTEGER REFERENCES conto(numero),
 	id_op INTEGER DEFAULT 0,
+	data DATE NOT NULL,
 	categoria_user INTEGER,
 	categoria_nome VARCHAR(20),
-	data DATE NOT NULL,
 	descrizione VARCHAR(100),
 	valore DECIMAL(19,4) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op),
@@ -81,7 +81,7 @@ CREATE TABLE bilancio(
 	nome varchar(20),
 	ammontareprevisto DECIMAL(19,4) NOT NULL CHECK (ammontareprevisto >= 0),
 	ammontarerestante DECIMAL(19,4) NOT NULL,
-	periodovalidita INTEGER NOT NULL CHECK (periodovalidita > 0),
+	periodovalidita INTERVAL NOT NULL CHECK (periodovalidita >= '1 day'),
 	data_partenza DATE NOT NULL,
 	PRIMARY KEY(userid,nome)
 	);
