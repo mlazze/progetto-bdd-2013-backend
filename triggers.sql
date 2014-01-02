@@ -68,7 +68,7 @@ CREATE OR REPLACE FUNCTION check_oncredit_debt_exists() RETURNS TRIGGER AS $$
 					RAISE EXCEPTION 'REFERRAL ACCOUNT DOESNT BELONG TO SAME USER';
 				END IF;
 				IF debtvar.data_creazione > NEW.data_creazione THEN
-					RAISE EXCEPTION 'REFERRAL ACCOUNT HAS A NEWER DATE THEN CREDIT ACCOUNT';
+					RAISE EXCEPTION 'REFERRAL ACCOUNT HAS A NEWER DATE THEN CREDIT ACCOUNT VALUE %', NEW.tetto_max;
 				END IF;
 				NEW.amm_disp = NEW.tetto_max;
 
@@ -169,11 +169,26 @@ CREATE OR REPLACE FUNCTION update_account_on_spesa() RETURNS TRIGGER AS
 
 CREATE TRIGGER tr_upd_account_on_spesa BEFORE INSERT ON spesa FOR EACH ROW EXECUTE PROCEDURE update_account_on_spesa();
 
---trigger aggiorna conto dopo entrata
+--trigger aggiorna conto dopo entrata e non permetti entrate su conto
 CREATE OR REPLACE FUNCTION update_account_on_entrata() RETURNS TRIGGER AS
 	$$
+		DECLARE 
+			--decommentare
+			/*
+			tipo_conto conto.tipo%TYPE;
+			*/
+			--
 		BEGIN
-			RAISE NOTICE 'operazione: % conto %, descr %, valore %, data %', NEW.id_op, NEW.conto,NEW.descrizione,NEW.valore, NEW.data;
+			--decommentare per non permettere entrate nei conti di credito
+			/*
+			SELECT tipo INTO tipo_conto from conto WHERE numero = NEW.conto;
+			IF tipo_conto = 'Credito' THEN
+				RAISE EXCEPTION 'NON E POSSIBILE INSERIRE ENTRATE PER I CONTI DI CREDITO';
+			END IF;
+			*/
+			--finedecommentare
+
+			--RAISE NOTICE 'operazione: % conto %, descr %, valore %, data %', NEW.id_op, NEW.conto,NEW.descrizione,NEW.valore, NEW.data;
 			UPDATE conto SET amm_disp = amm_disp + NEW.valore WHERE numero = NEW.conto;
 			RETURN NEW;
 		END;
