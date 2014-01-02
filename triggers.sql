@@ -156,7 +156,21 @@ CREATE OR REPLACE FUNCTION update_bilancio_on_spesa() RETURNS TRIGGER AS
 				FETCH curs_bil INTO bil_var;
 				EXIT WHEN SQLSTATE = 02000;*/
 			SELECT userid INTO user_var FROM conto WHERE numero = NEW.conto;
-			FOR bil_var IN SELECT * from BILANCIO WHERE nome IN (SELECT nome_bil FROM bilancio_conto WHERE numero_conto = NEW.conto) AND nome IN (SELECT nome_bil FROM bilancio_categoria WHERE nome_cat = NEW.categoria_nome) AND userid = user_var LOOP
+			FOR bil_var IN SELECT * from BILANCIO WHERE nome IN (
+					SELECT nome_bil FROM bilancio_conto WHERE numero_conto = NEW.conto
+					) 
+			AND nome IN (
+					SELECT nome_bil FROM bilancio_categoria WHERE nome_cat IN (
+							WITH RECURSIVE rec_cat AS (
+								SELECT nome,userid,supercat_nome FROM categoria_spesa WHERE userid=user_var AND nome=NEW.categoria_nome
+
+								UNION ALL
+
+								SELECT c.nome,c.userid,c.supercat_nome FROM categoria_spesa AS c JOIN rec_cat AS rc ON c.nome = rc.supercat_nome AND c.userid = rc.userid WHERE c.userid = user_var
+							)
+							SELECT nome FROM rec_cat
+						)
+			) AND userid = user_var LOOP
 				IF bil_var.ammontarerestante < NEW.valore THEN
 					RAISE NOTICE 'ECCEDUTO BILANCIO % DI %', bil_var.nome, NEW.valore - bil_var.ammontarerestante;
 				END IF;

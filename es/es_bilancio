@@ -27,3 +27,19 @@ insert into bilancio values(1,'Aristide',10000,10000,10,'1-1-3000');
 insert into bilancio_conto values (1,'Aristide',20);
 insert into bilancio_conto values (1,'Aristide',159);
 insert into bilancio_categoria values (1,'Aristide','Alimentazione');
+
+insert into bilancio values(1,'Gigicaccapupu',10000,10000,10,'1-1-3000');
+insert into bilancio_conto values (1,'Gigicaccapupu',20);
+insert into bilancio_conto values (1,'Gigicaccapupu',159);
+insert into bilancio_categoria values (1,'Gigicaccapupu','caccapupu');
+
+
+insert into bilancio values(1,'gigicacca',10000,10000,10,'1-1-3000');
+insert into bilancio_conto values (1,'gigicacca',20);
+insert into bilancio_conto values (1,'gigicacca',159);
+insert into bilancio_categoria values (1,'gigicacca','cacca');
+
+insert into bilancio values(1,'gigicaccastracca',10000,10000,10,'1-1-3000');
+insert into bilancio_conto values (1,'gigicaccastracca',20);
+insert into bilancio_conto values (1,'gigicaccastracca',159);
+insert into bilancio_categoria values (1,'gigicaccastracca','caccastracca');
