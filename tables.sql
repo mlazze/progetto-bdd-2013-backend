@@ -20,7 +20,8 @@ CREATE TABLE valuta(
 CREATE TABLE profilo(
 	userid INTEGER PRIMARY KEY REFERENCES utente(userid),
 	valuta CHAR DEFAULT '€' NOT NULL REFERENCES valuta(simbolo),
-	last_date_used DATE
+	username varchar(60) UNIQUE,
+	password_hashed varchar(64)
 	);
 
 CREATE TABLE categoria_entrata(
@@ -103,4 +104,3 @@ CREATE TABLE bilancio_categoria(
 	FOREIGN KEY(userid,nome_bil) REFERENCES bilancio(userid,nome),
 	FOREIGN KEY(userid,nome_cat) REFERENCES categoria_spesa(userid,nome)
 	);
-
