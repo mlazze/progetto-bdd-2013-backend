@@ -189,7 +189,9 @@ CREATE OR REPLACE FUNCTION update_account_on_entrata() RETURNS TRIGGER AS
 			--finedecommentare
 
 			--RAISE NOTICE 'operazione: % conto %, descr %, valore %, data %', NEW.id_op, NEW.conto,NEW.descrizione,NEW.valore, NEW.data;
-			UPDATE conto SET amm_disp = amm_disp + NEW.valore WHERE numero = NEW.conto;
+			IF NEW.descrizione <> 'Deposito Iniziale' THEN
+				UPDATE conto SET amm_disp = amm_disp + NEW.valore WHERE numero = NEW.conto;
+			END IF;
 			RETURN NEW;
 		END;
 	$$ LANGUAGE plpgsql;
