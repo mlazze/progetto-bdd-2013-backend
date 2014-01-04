@@ -4,14 +4,14 @@ CREATE TABLE nazione(
 
 CREATE TABLE utente(
 	userid INTEGER DEFAULT get_first_free_utente() PRIMARY KEY , 
-	nome VARCHAR(30), 
-	cognome VARCHAR(20) CHECK (cognome IS NOT NULL OR nome IS NOT NULL), 
+	nome VARCHAR(40), 
+	cognome VARCHAR(40) CHECK (cognome IS NOT NULL OR nome IS NOT NULL), 
 	cfiscale CHAR(16) NOT NULL CHECK (cfiscale ~ '[A-Za-z0-9]{16}'), 
 	indirizzo VARCHAR(70), 
 	citta VARCHAR(70),
-	nazione_res VARCHAR(50) REFERENCES nazione(name),
+	nazione_res VARCHAR(80) REFERENCES nazione(name),
 	email VARCHAR(100) CHECK (email ~ '' OR email ~ '^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$'), 
-	telefono VARCHAR(15) CHECK (telefono ~ '[+]?[0-9]*[/-\\]?[0-9]*')
+	telefono VARCHAR(20) CHECK (telefono ~ '[+]?[0-9]*[/-\\]?[0-9]*')
 	);
 
 CREATE TABLE valuta(
@@ -60,8 +60,8 @@ CREATE TABLE spesa(
 	id_op INTEGER DEFAULT 0,
 	data DATE NOT NULL,
 	categoria_user INTEGER,
-	categoria_nome VARCHAR(20),
-	descrizione VARCHAR(200),
+	categoria_nome VARCHAR(40),
+	descrizione VARCHAR(100),
 	valore DECIMAL(19,4) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op),
 	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria_spesa(userid,nome)
@@ -72,7 +72,7 @@ CREATE TABLE entrata(
 	id_op INTEGER DEFAULT 0,
 	data DATE NOT NULL,
 	categoria_user INTEGER,
-	categoria_nome VARCHAR(20),
+	categoria_nome VARCHAR(40),
 	descrizione VARCHAR(100),
 	valore DECIMAL(19,4) NOT NULL CHECK (valore > 0),
 	PRIMARY KEY(conto,id_op),
@@ -81,7 +81,7 @@ CREATE TABLE entrata(
 --user_id e n_conto anche se sono dipendenti li tengo entrambi perche diventerebbe esoso cercare i bilanci di un certo utente
 CREATE TABLE bilancio(
 	userid INTEGER REFERENCES utente(userid),
-	nome varchar(20),
+	nome varchar(40),
 	ammontareprevisto DECIMAL(19,4) NOT NULL CHECK (ammontareprevisto >= 0),
 	ammontarerestante DECIMAL(19,4) NOT NULL,
 	periodovalidita INTERVAL NOT NULL CHECK (periodovalidita >= '1 day'),
