@@ -8,8 +8,9 @@ CREATE TABLE utente(
 	cognome VARCHAR(20) CHECK (cognome IS NOT NULL OR nome IS NOT NULL), 
 	cfiscale CHAR(16) NOT NULL CHECK (cfiscale ~ '[A-Za-z0-9]{16}'), 
 	indirizzo VARCHAR(70), 
+	citta VARCHAR(70),
 	nazione_res VARCHAR(50) REFERENCES nazione(name),
-	email VARCHAR(100) CHECK (email ~ '^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$'), 
+	email VARCHAR(100) CHECK (email ~ '' OR email ~ '^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$'), 
 	telefono VARCHAR(15) CHECK (telefono ~ '[+]?[0-9]*[/-\\]?[0-9]*')
 	);
 
