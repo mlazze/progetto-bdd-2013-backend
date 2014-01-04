@@ -78,3 +78,16 @@ INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Kennan','Mazza','TSMOHO55I77D407O','3829 Adipiscing St.','Liechtenstein','pellentesque.Sed.dictum@utmiDuis.co.uk','5833/154293');
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Kessie','Bernardi','WFLKNW24F67T571M','P.O. Box 270, 5449 A, St.','Honduras','ornare.In.faucibus@Nullaeget.co.uk','+017379421480');
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Brenna','Pellegrino','QIZZXF54P86G648D','165-5166 Tellus. Avenue','Djibouti','ut.molestie.in@vitaepurusgravida.edu','341 4071535');
+
+CREATE OR REPLACE FUNCTION def_password(INTEGER,VARCHAR) RETURNS VOID AS $$
+	DECLARE
+		prof_var profilo%ROWTYPE;
+	BEGIN
+		FOR prof_var IN (SELECT * FROM profilo WHERE userid <= $1) LOOP
+			UPDATE profilo SET username = prof_var.userid, password_hashed = $2 WHERE userid = prof_var.userid;
+		END LOOP;
+	END;
+$$ LANGUAGE plpgsql;
+
+SELECT def_password(80,'bcd644e2d5241ed2183bd4d74f48ec803e8ca268016532f0159ed32c62b1d67f');
+-- password è la password di default per questi 80 utenti
