@@ -148,3 +148,24 @@ CREATE OR REPLACE FUNCTION upd_fixall() RETURNS VOID AS $$
 		PERFORM fixall_til(current_date);
 	END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_last_period_start(INTEGER, VARCHAR,DATE) RETURNS DATE AS
+	$$
+	DECLARE
+		data DATE;
+		datab DATE;
+		periodo INTERVAL;
+	BEGIN
+		SELECT data_partenza INTO data FROM bilancio WHERE userid=$1 AND nome = $2;
+		SELECT periodovalidita INTO periodo FROM bilancio WHERE userid=$1 AND nome = $2;
+		WHILE (data + periodo <= $3) LOOP
+			data=data+periodo;
+		END LOOP;
+
+		IF data > $3 THEN
+			RETURN $3;
+		ELSE 
+			RETURN data;
+		END IF;
+	END;
+$$ LANGUAGE plpgsql;
