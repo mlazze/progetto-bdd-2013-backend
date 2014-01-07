@@ -76,3 +76,9 @@ F36. funct fixall -> bilancio -> recursive categories
 F37. Spesa in conto di credito -> Bilancio su conto di credito e debito -> Spesa rientra due volte nel bilancio? No perchè spesa sul conto di deposito non ha cat!
 
 F38. Impostare cambio spese credito -> debito alla scadenza?
+
+39. add custom err strings
+
+40. credito -> data inizio e fine periodo
+
+41. bilancio rapp -> data inizio e fine periodo
