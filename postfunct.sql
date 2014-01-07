@@ -149,7 +149,7 @@ CREATE OR REPLACE FUNCTION upd_fixall() RETURNS VOID AS $$
 	END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION get_last_period_start(INTEGER, VARCHAR,DATE) RETURNS DATE AS
+CREATE OR REPLACE FUNCTION get_last_period_start_bil(INTEGER, VARCHAR,DATE) RETURNS DATE AS
 	$$
 	DECLARE
 		data DATE;
@@ -164,6 +164,27 @@ CREATE OR REPLACE FUNCTION get_last_period_start(INTEGER, VARCHAR,DATE) RETURNS 
 
 		IF data > $3 THEN
 			RETURN $3;
+		ELSE 
+			RETURN data;
+		END IF;
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_last_period_start_cred(INTEGER,DATE) RETURNS DATE AS
+	$$
+	DECLARE
+		data DATE;
+		datab DATE;
+		periodo INTERVAL;
+	BEGIN
+		SELECT data_creazione INTO data FROM conto WHERE numero = $1;
+		SELECT scadenza_giorni INTO periodo FROM conto WHERE numero = $1;
+		WHILE (data + periodo <= $2) LOOP
+			data=data+periodo;
+		END LOOP;
+
+		IF data > $2 THEN
+			RETURN $2;
 		ELSE 
 			RETURN data;
 		END IF;

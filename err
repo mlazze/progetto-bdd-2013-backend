@@ -79,12 +79,21 @@ F38. Impostare cambio spese credito -> debito alla scadenza?
 
 39. add custom err strings
 
-40. credito -> data inizio e fine periodo
+F40. credito -> data inizio e fine periodo
 
-41. bilancio rapp -> data inizio e fine periodo
+F41. bilancio rapp -> data inizio e fine periodo
 
 42. Funct fixall -> Bilancio rivedere con cat
 
-43. errstr come list e succlist
+F43. errstr come list e succlist
 
 44. mail mamma
+
+45. Rapp: saldo a periodi per conto/bilancio
+46. Rapp: confrontare bilanci per periodo
+47. Rapp: % di spesa per cat
+48. Rapp: quantità media di spesa glob
+50. Rapp: categorie con maggiori spese
+51. Rapp: categorie con maggiori entrate
+52. togliere entrate da cred, creare entrata per il reset
+53. Grant e REvoke?
