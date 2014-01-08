@@ -15,12 +15,12 @@ CREATE TABLE utente(
 	);
 
 CREATE TABLE valuta(
-	simbolo CHAR PRIMARY KEY
+	simbolo VARCHAR(3) PRIMARY KEY
 );
 
 CREATE TABLE profilo(
 	userid INTEGER PRIMARY KEY REFERENCES utente(userid),
-	valuta CHAR DEFAULT '€' NOT NULL REFERENCES valuta(simbolo),
+	valuta VARCHAR(3) DEFAULT '€' NOT NULL REFERENCES valuta(simbolo),
 	username varchar(60) UNIQUE,
 	password_hashed varchar(64)
 	);

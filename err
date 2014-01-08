@@ -69,7 +69,7 @@ F33. Trigger spesa -> bilancio RECURSIVE!
 
 F34. periodi interval
 
-?35. Conto di credito puòa vere entrate? (supposto di si) 
+F35. Conto di credito puòa vere entrate? (supposto di no) 
 
 F36. funct fixall -> bilancio -> recursive categories
 
@@ -83,7 +83,7 @@ F40. credito -> data inizio e fine periodo
 
 F41. bilancio rapp -> data inizio e fine periodo
 
-42. Funct fixall -> Bilancio rivedere con cat
+F42. Funct fixall -> Bilancio rivedere con cat
 
 F43. errstr come list e succlist
 
@@ -95,7 +95,8 @@ F43. errstr come list e succlist
 48. Rapp: quantità media di spesa glob
 50. Rapp: categorie con maggiori spese
 51. Rapp: categorie con maggiori entrate
-52. togliere entrate da cred, creare entrata per il reset
-53. Grant e REvoke?
 
-54. entrata per il reset dei conti di credito
+F53. Grant e REvoke?
+
+F54. entrata per il reset dei conti di credito
+55. verifica appartenenza per vista

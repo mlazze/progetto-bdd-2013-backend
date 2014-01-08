@@ -154,14 +154,16 @@ CREATE OR REPLACE FUNCTION update_account_on_spesa() RETURNS TRIGGER AS
 		DECLARE
 			ammontare_disp spesa.valore%TYPE;
 		BEGIN
-			SELECT amm_disp INTO ammontare_disp FROM conto WHERE numero = NEW.conto;
+			IF NEW.valore IS NOT NULL THEN
+				SELECT amm_disp INTO ammontare_disp FROM conto WHERE numero = NEW.conto;
 
-			IF ammontare_disp < NEW.valore THEN
+				IF ammontare_disp < NEW.valore THEN
 
-				RAISE EXCEPTION 'DISPONIBILITA SUL CONTO % NON SUFFICIENTE', NEW.conto;
-			ELSE
-				UPDATE conto SET amm_disp = amm_disp - NEW.valore WHERE numero = NEW.conto;
-				RAISE NOTICE 'Aggiornamente conto % amm_dispnuovo: % valore op: %', NEW.conto,ammontare_disp,NEW.valore;
+					RAISE EXCEPTION 'DISPONIBILITA SUL CONTO % NON SUFFICIENTE', NEW.conto;
+				ELSE
+					UPDATE conto SET amm_disp = amm_disp - NEW.valore WHERE numero = NEW.conto;
+					/*RAISE NOTICE 'Aggiornamente conto % amm_dispnuovo: % valore op: %', NEW.conto,ammontare_disp,NEW.valore;*/
+				END IF;
 			END IF;
 			RETURN NEW;
 		END;
@@ -179,7 +181,7 @@ CREATE OR REPLACE FUNCTION update_account_on_entrata() RETURNS TRIGGER AS
 		BEGIN
 			--decommentare per non permettere entrate nei conti di credito
 			SELECT tipo INTO tipo_conto from conto WHERE numero = NEW.conto;
-			RAISE NOTICE 'conto: % descr: %', New.conto, NEW.descrizione;
+			-- RAISE NOTICE 'conto: % descr: %', New.conto, NEW.descrizione;
 			IF tipo_conto = 'Credito' AND (NEW.descrizione NOT LIKE 'Rinnovo conto di Credito' OR NEW.descrizione IS NULL) THEN
 				RAISE EXCEPTION 'NON E POSSIBILE INSERIRE ENTRATE PER I CONTI DI CREDITO';
 			END IF;

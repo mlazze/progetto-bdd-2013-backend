@@ -11,7 +11,8 @@ CREATE OR REPLACE FUNCTION fixall_til(DATE) RETURNS VOID AS $$
 		--check conti credito, crea relative spese/entrate e aggiorna amm_disp
 		FOR conto_var IN (SELECT * FROM conto WHERE data_creazione <= $1 AND tipo='Credito') LOOP
 			WHILE (conto_var.data_creazione + conto_var.scadenza_giorni <= $1) LOOP
-				SELECT SUM(valore) INTO a FROM spesa WHERE conto = conto_var.numero AND data >= conto_var.data_creazione AND data < conto_var.data_creazione + conto_var.scadenza_giorni;
+				--decommentare se entrate per credito
+				/*SELECT SUM(valore) INTO a FROM spesa WHERE conto = conto_var.numero AND data >= conto_var.data_creazione AND data < conto_var.data_creazione + conto_var.scadenza_giorni;
 				SELECT SUM(valore) INTO b FROM entrata WHERE conto = conto_var.numero AND data >= conto_var.data_creazione AND data < conto_var.data_creazione + conto_var.scadenza_giorni;
 				SELECT * INTO spesa_var FROM spesa WHERE conto = conto_var.conto_di_rif AND data = conto_var.data_creazione + conto_var.scadenza_giorni AND descrizione LIKE '%Addebito da conto di credito n°%';
 				IF spesa_var IS NULL THEN
@@ -73,14 +74,45 @@ CREATE OR REPLACE FUNCTION fixall_til(DATE) RETURNS VOID AS $$
 						END IF;
 					END IF;
 				END IF;
+				*/
+
+				SELECT SUM(valore) INTO a FROM spesa WHERE conto = conto_var.numero AND data >= conto_var.data_creazione AND data < conto_var.data_creazione + conto_var.scadenza_giorni;
+				SELECT * INTO spesa_var FROM spesa WHERE conto = conto_var.conto_di_rif AND data = conto_var.data_creazione + conto_var.scadenza_giorni AND descrizione LIKE '%Addebito da conto di credito n°%';
+				SELECT * INTO entrata_var FROM spesa WHERE conto = conto_var.numero AND data = conto_var.data_creazione + conto_var.scadenza_giorni AND descrizione LIKE '%Rinnovo conto di Credito%';
+				IF spesa_var IS NULL THEN
+					IF a IS NOT NULL THEN
+						EXECUTE 'INSERT INTO spesa(conto,data,descrizione,valore) VALUES ($1,$2,$3,$4)'
+								USING conto_var.conto_di_rif, conto_var.data_creazione + conto_var.scadenza_giorni,'Addebito da conto di credito n° ' || conto_var.numero, a;
+					END IF;
+				ELSE
+					IF a IS NOT NULL THEN
+						UPDATE spesa SET valore = a WHERE conto = spesa_var.conto AND id_op = spesa_var.id_op;
+					ELSE
+						DELETE FROM spesa WHERE conto = spesa_var.conto AND id_op = spesa_var.id_op;
+					END IF;
+				END IF;
+				IF entrata_var IS NULL THEN
+					IF a IS NOT NULL THEN
+						EXECUTE 'INSERT INTO entrata(conto,data,descrizione,valore) VALUES ($1,$2,$3,$4)'
+								USING conto_var.numero, conto_var.data_creazione + conto_var.scadenza_giorni,'Rinnovo conto di Credito', a;
+					END IF;
+				ELSE
+					IF a IS NOT NULL THEN
+						UPDATE entrata SET valore = a WHERE conto = entrata_var.conto AND id_op = entrata_var.id_op;
+					ELSE
+						DELETE FROM entrata WHERE conto = entrata_var.conto AND id_op = entrata_var.id_op;
+					END IF;
+				END IF;
+
+
 				conto_var.data_creazione := conto_var.data_creazione + conto_var.scadenza_giorni;
 			END LOOP;
 			--RAISE NOTICE 'Conto: % data_Creaz: %', conto_var.numero, conto_var.data_creazione;
 			SELECT SUM(valore) INTO a FROM spesa WHERE conto = conto_var.numero AND data >= conto_var.data_creazione AND data <= $1;
-			SELECT SUM(valore) INTO b FROM entrata WHERE conto = conto_var.numero AND data >= conto_var.data_creazione AND data <= $1;
+			-- SELECT SUM(valore) INTO b FROM entrata WHERE conto = conto_var.numero AND data >= conto_var.data_creazione AND data <= $1;
 			--RAISE NOTICE 'a= %', a;
 			--RAISE NOTICE 'b= %', b;
-			IF (a IS NOT NULL AND b is NOT NULL) THEN
+			/*IF (a IS NOT NULL AND b is NOT NULL) THEN
 				UPDATE conto SET amm_disp = conto_var.tetto_max+b-a WHERE numero = conto_var.numero;
 			END IF;
 			IF (b IS NOT NULL AND a IS NULL) THEN
@@ -91,7 +123,14 @@ CREATE OR REPLACE FUNCTION fixall_til(DATE) RETURNS VOID AS $$
 			END IF;
 			IF (a IS NULL AND b IS NULL) THEN
 				UPDATE conto SET amm_disp = conto_var.tetto_max WHERE numero = conto_var.numero;
+			END IF;*/
+			IF (a IS NULL) THEN
+				UPDATE conto SET amm_disp = conto_var.tetto_max WHERE numero = conto_var.numero;
+			ELSE
+				UPDATE conto SET amm_disp = conto_var.tetto_max-a WHERE numero = conto_var.numero;
 			END IF;
+
+
 		END LOOP;
 
 		--calcola disp conti di deposito
@@ -189,4 +228,18 @@ CREATE OR REPLACE FUNCTION get_last_period_start_cred(INTEGER,DATE) RETURNS DATE
 			RETURN data;
 		END IF;
 	END;
+$$ LANGUAGE plpgsql;
+
+--verifica_appartenenza(utente,numero) Ritorna 1 se il conto appartiene all'utente, 0 altrimenti
+CREATE OR REPLACE FUNCTION verifica_appartenenza(INTEGER,INTEGER) RETURNS INTEGER AS $$
+DECLARE
+	a INTEGER;
+BEGIN
+	SELECT COUNT(*) INTO a FROM conto WHERE userid=$1 AND numero=$2;
+	IF a = 1 THEN
+		RETURN 1;
+	ELSE
+		RETURN 0;
+	END IF;
+END;
 $$ LANGUAGE plpgsql;
