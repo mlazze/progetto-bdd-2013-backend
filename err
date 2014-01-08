@@ -77,7 +77,7 @@ F37. Spesa in conto di credito -> Bilancio su conto di credito e debito -> Spesa
 
 F38. Impostare cambio spese credito -> debito alla scadenza?
 
-39. add custom err strings
+F39. add custom err strings
 
 F40. credito -> data inizio e fine periodo
 
@@ -96,7 +96,8 @@ F43. errstr come list e succlist
 50. Rapp: categorie con maggiori spese
 51. Rapp: categorie con maggiori entrate
 
-F53. Grant e REvoke?
+F52. Grant e REvoke?
 
-F54. entrata per il reset dei conti di credito
-55. verifica appartenenza per vista
+F53. entrata per il reset dei conti di credito
+54. verifica appartenenza per vista
+F55. Problema temporal (8 spesa, poi 7 spesa, esplode tutto! (fixall))
