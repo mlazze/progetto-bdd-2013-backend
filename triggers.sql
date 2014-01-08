@@ -174,18 +174,15 @@ CREATE OR REPLACE FUNCTION update_account_on_entrata() RETURNS TRIGGER AS
 	$$
 		DECLARE 
 			--decommentare
-			/*
 			tipo_conto conto.tipo%TYPE;
-			*/
 			--
 		BEGIN
 			--decommentare per non permettere entrate nei conti di credito
-			/*
 			SELECT tipo INTO tipo_conto from conto WHERE numero = NEW.conto;
-			IF tipo_conto = 'Credito' THEN
+			RAISE NOTICE 'conto: % descr: %', New.conto, NEW.descrizione;
+			IF tipo_conto = 'Credito' AND (NEW.descrizione NOT LIKE 'Rinnovo conto di Credito' OR NEW.descrizione IS NULL) THEN
 				RAISE EXCEPTION 'NON E POSSIBILE INSERIRE ENTRATE PER I CONTI DI CREDITO';
 			END IF;
-			*/
 			--finedecommentare
 
 			--RAISE NOTICE 'operazione: % conto %, descr %, valore %, data %', NEW.id_op, NEW.conto,NEW.descrizione,NEW.valore, NEW.data;
