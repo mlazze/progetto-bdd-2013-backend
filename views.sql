@@ -1,0 +1,3 @@
+CREATE VIEW rapp_conto as SELECT a.data,a.cr,a.de,a.descrizione,a.categoria_nome,conto FROM (SELECT id_op,data,valore as cr,NULL as de,descrizione,categoria_nome,conto FROM entrata UNION SELECT id_op, data,NULL as cr,valore as de,descrizione,categoria_nome,conto FROM spesa ORDER BY data,id_op,cr) as a;
+
+CREATE VIEW rapp_bilancio AS SELECT * FROM spesa as s JOIN (select blca.userid,blca.nome_bil,nome_cat,numero_conto from bilancio_categoria as blca JOIN bilancio_conto as blco ON blca.userid = blco.userid AND blca.nome_bil = blco.nome_bil) as bl ON s.conto = bl.numero_conto AND s.categoria_nome = bl.nome_cat ORDER BY userid,nome_bil,data,id_op;
