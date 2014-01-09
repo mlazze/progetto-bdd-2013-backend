@@ -3,8 +3,8 @@ CREATE OR REPLACE FUNCTION update_spesa_id() RETURNS TRIGGER AS $$
 		DECLARE
 			a INTEGER;
 		BEGIN
-			SELECT get_first_free_spesa(NEW.conto) INTO a;
-			UPDATE spesa SET id_op = a WHERE id_op = 0;
+			SELECT get_first_free_spentr(NEW.conto) INTO a;
+			UPDATE spesa SET id_op = a WHERE id_op = 0 AND conto = NEW.conto;
 			RETURN NEW;
 		END;
 	$$ LANGUAGE plpgsql;
@@ -16,8 +16,8 @@ CREATE OR REPLACE FUNCTION update_entrata_id() RETURNS TRIGGER AS $$
 		DECLARE
 			a INTEGER;
 		BEGIN
-			SELECT get_first_free_entrata(NEW.conto) INTO a;
-			UPDATE entrata SET id_op = a WHERE id_op = 0;
+			SELECT get_first_free_spentr(NEW.conto) INTO a;
+			UPDATE entrata SET id_op = a WHERE id_op = 0 AND conto = NEW.conto;
 			RETURN NEW;
 		END;
 	$$ LANGUAGE plpgsql;
