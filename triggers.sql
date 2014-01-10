@@ -87,6 +87,11 @@ CREATE OR REPLACE FUNCTION initial_deposit() RETURNS TRIGGER AS $$
 				insert into entrata(conto,data,descrizione,valore) VALUES (NEW.numero,NEW.data_creazione,'Deposito Iniziale',NEW.amm_disp);
 			END IF;
 		END IF;
+		IF NEW.tipo = 'Credito' THEN
+			IF NEW.amm_disp > 0 THEN
+				insert into entrata(conto,data,descrizione,valore) VALUES (NEW.numero,NEW.data_creazione,'Rinnovo conto di Credito',NEW.amm_disp);
+			END IF;
+		END IF;
 		RETURN NEW;
 	END;
 $$ LANGUAGE plpgsql;

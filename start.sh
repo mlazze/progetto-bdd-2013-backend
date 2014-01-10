@@ -43,5 +43,9 @@ echo starting funct
 echo ----
 psql -U postgres -h localhost -q bdd < es/es_inizio
 echo ----
+echo adding views
+echo ----
+psql -U postgres -h localhost -q bdd < views.sql
+echo ----
 echo END
 echo ----
