@@ -89,15 +89,17 @@ F43. errstr come list e succlist
 
 F44. mail mamma
 
-45. Rapp: saldo a periodi per conto/bilancio
-46. Rapp: confrontare bilanci per periodo
-47. Rapp: % di spesa per cat
-48. Rapp: quantità media di spesa glob
-50. Rapp: categorie con maggiori spese
-51. Rapp: categorie con maggiori entrate
+F45. Rapp: saldo a periodi per conto/bilancio
+F46. Rapp: confrontare bilanci per periodo
+F47. Rapp: % di spesa per cat
+F48. Rapp: quantità media di spesa glob
+F50. Rapp: categorie con maggiori spese
+F51. Rapp: categorie con maggiori entrate
 
 F52. Grant e REvoke?
 
 F53. entrata per il reset dei conti di credito
-54. verifica appartenenza per vista
+F54. verifica appartenenza per vista
 F55. Problema temporal (8 spesa, poi 7 spesa, esplode tutto! (fixall))
+
+56. devono installare: apache, php, postgresql, php-pgsql, php-gd, jpgraph, modificare conf.php in base al db
