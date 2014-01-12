@@ -102,4 +102,5 @@ F53. entrata per il reset dei conti di credito
 F54. verifica appartenenza per vista
 F55. Problema temporal (8 spesa, poi 7 spesa, esplode tutto! (fixall))
 
-56. devono installare: apache, php, postgresql, php-pgsql, php-gd, jpgraph, modificare conf.php in base al db
+56. devono installare: apache, php 5.4+, postgresql, php-pgsql, php-gd, jpgraph, modificare conf.php in base al db
+
