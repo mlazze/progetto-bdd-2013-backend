@@ -1,12 +1,12 @@
 Entità: Conto (Tipologia, Data creazione, KEYn#)
 			deposito (Ammontare)
-			credito (Tettomax, Scadenza) 
+			credito (Amm,Tettomax, Scadenza) 
 		Spese/Entrate (data 0:1, descrizione 0:1, valore) debole -suun-
 			Spese
 			Entrate
 		Categorie (nome) debole -crea-
 			TE
-		Bilancio (ammontare previsto , periodo validità, data partenza) debole -definisce- 
+		Bilancio (ammontare previsto , ammontare restante,  periodo validità, data partenza) debole -definisce- 
 		Utente (nome,cognome,email,indirizzo,cfiscale,data di nascita,comune di nascita, nazione residenza)
 		Profilo(opzionivarie) debole -opz-
 
@@ -23,17 +23,16 @@ Ass:	Utente -haun- Conto 0:N 1:1 (datacreazione)
 Post-ristr
 
 
-Entità: Conto (Data creazione, KEYn#, Ammontare/tetto, scadenza, Tipo)
+Entità: Conto (Data creazione, KEYn#, Ammontare,tetto, scadenza, Tipo)
 			uso la super perchè se usassi solo le sottoclassi non potrei Spesa -> conto, non uso tutto perchè dep e credito sarebbero deboli e non potrei associare spesa a uno di essi
 
 		Spese (id, data 0:1, categoria, descrizione 0:1, valore) debole -suun-
 		Entrate (id, data 0:1, categoria, descrizione 0:1, valore) debole -suun-
 			tengo le sotto perchè i bilanci sono definiti solo per le spese
-		Categorie (nome) debole -crea-
-			TE
-			tengo tutto perchè faccio op sia sopra che sotto
+		Categorie spesa (nome) debole -crea-
+		Categorie entrata (nome) debole -crea-
 
-		Bilancio (idbil, ammontare previsto , periodo validità, data partenza) debole -definisce- 
+		Bilancio (idbil, ammontare previsto , ammontare restante,  periodo validità, data partenza) debole -definisce- 
 		Utente (nome,cognome,email,indirizzo,KEYID,cfiscale,data di nascita,comune di nascita, nazione residenza)
 			keyid perchè non riesco a trovarne uno abbastanza semplice
 		Profilo(opzionivarie) debole -opz-
@@ -41,12 +40,15 @@ Entità: Conto (Data creazione, KEYn#, Ammontare/tetto, scadenza, Tipo)
 Ass:	- Utente -haun- Conto 0:N 1:1 (datacreazione)
 		- Conto 1:1 -riferitoa- Conto 0:N
 		- Spese -suun- Conto 1:1 0:N (valuta)
-		- Spese-relativea- Categoria 0:1 0:N
+		- Spese-relativea- Categoriasp 0:1 0:N
+		- Entrate-relativea- Categoriaen 0:1 0:N
 		- Entr -relativea- Categoria 0:1 0:N
 		- Utente -definisce- Bilancio 0:N 1:1 (datadefinizione)
-		- Categoria -stabilito- Conto Bilancio 1:1 0:N 0:N
+		- Categoriasp -stabilito- Conto Bilancio 1:1 0:N 0:N
 		- Utente -crea- Categoria 0:N 1:1
-		- Categoria -supercat- Categoria 0:1 0:N
+		- Categoria sp -supercat- Categoria sp 0:1 0:N
+		- Categoria en -supercat- Categoria en 0:1 0:N
+
 		- Utente -opz- profilo 1:1 1:1
 
 

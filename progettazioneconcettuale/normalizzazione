@@ -1,15 +1,16 @@
 Normalizzazione:
 	è in 1NF;
 
-	conto(KEY N#, amm_tettomax NOTNULL, scadenza, tipo, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -riferitoa- conto_di_rif)
+	conto(KEY N#, amm NOTNULL, tettomax, scadenza, tipo, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -riferitoa- conto_di_rif)
 
 	spesa(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
 
 	entrata(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
 
-	categoria(KEY(utente.ID, nome), -supercat- categoria.nome)
+	categoria_spesa(KEY(utente.ID, nome), -supercat- categoria.nome)
+	categoria_entrata(KEY(utente.ID, nome), -supercat- categoria.nome)
 
-	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza)
+	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,ammrest NOT NULL, periodovalidita NOT NULL,datapartenza NOT NULL)
 
 	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,datadinascita,comunedinascita,nazioneresidenza, indirizzo, telefono)
 
@@ -25,15 +26,16 @@ Normalizzazione:
 
 	3NF: tolgo datadinascita da utente perchè è calcolabile dal cf
 
-	conto(KEY N#, amm_tettomax NOTNULL, scadenza, tipo, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -rferitoa- conto_di_rif)
+	conto(KEY N#, amm NOT NULL, tettomax , scadenza, tipo, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -rferitoa- conto_di_rif)
 
 	spesa(KEY(conto.n#, idop), data,categoria.nome,categoria.utenteid,descrizione,valore NOT NULL)
 
 	entrata(KEY(conto.n#, idop), data,categoria.userid,categoria.nome,descrizione,valore NOT NULL)
 
-	categoria(KEY(utente.ID, nome), -supercat- categoria.nome)
+	categoria_spesa(KEY(utente.ID, nome), -supercat- categoria.nome)
+	categoria_entrata(KEY(utente.ID, nome), -supercat- categoria.nome)
 
-	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,periodovalidita,datapartenza, -associato- conto.n# NOT NULL)
+	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,ammrest NOT NULL, eriodovalidita NOT NULL,datapartenza NOT NULL)
 
 	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,nazioneresidenza, indirizzo, telefono)
 
@@ -48,7 +50,7 @@ Normalizzazione:
 	è in BCNF
 
 
-Aggiunte di supporto: nazione, valuta
+Aggiunte di supporto: nazione, valuta, username,password
 
 
 utente contiene informazioni dell'utente

@@ -78,7 +78,8 @@ CREATE TABLE entrata(
 	PRIMARY KEY(conto,id_op),
 	FOREIGN KEY(categoria_user,categoria_nome) REFERENCES categoria_entrata(userid,nome)
 	);
---user_id e n_conto anche se sono dipendenti li tengo entrambi perche diventerebbe esoso cercare i bilanci di un certo utente
+
+
 CREATE TABLE bilancio(
 	userid INTEGER REFERENCES utente(userid),
 	nome varchar(40),
