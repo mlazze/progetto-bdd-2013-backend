@@ -157,13 +157,13 @@ CREATE OR REPLACE FUNCTION fixall_til(DATE) RETURNS VOID AS $$
 				bil_var.data_partenza = bil_var.data_partenza + bil_var.periodovalidita;
 			END LOOP;
 
-			SELECT SUM(valore) INTO a FROM spesa WHERE conto IN (SELECT numero_conto FROM bilancio_conto WHERE userid = bil_var.userid AND nome_bil = bil_var.nome) AND categoria_nome IN /*(SELECT nome_cat FROM bilancio_categoria WHERE userid = bil_var.userid AND nome_bil = bil_var.nome)*/ (
+			SELECT SUM(valore) INTO a FROM spesa WHERE conto IN (SELECT numero_conto FROM bilancio_conto WHERE userid = bil_var.userid AND nome_bil = bil_var.nome) AND categoria_nome IN (
 							WITH RECURSIVE rec_cat AS (
-								SELECT nome,userid,supercat_nome FROM categoria_spesa WHERE userid=1 AND nome IN (SELECT nome_cat FROM bilancio_categoria WHERE userid = 1 AND nome_bil = 'Agamennone')
+								SELECT nome,userid,supercat_nome FROM categoria_spesa WHERE userid=1 AND nome IN (SELECT nome_cat FROM bilancio_categoria WHERE userid = bil_var.userid AND nome_bil = bil_var.nome)
 
 								UNION ALL
 
-								SELECT c.nome,c.userid,c.supercat_nome FROM categoria_spesa AS c JOIN rec_cat AS rc ON c.supercat_nome = rc.nome AND c.userid = rc.userid WHERE c.userid = 1 
+								SELECT c.nome,c.userid,c.supercat_nome FROM categoria_spesa AS c JOIN rec_cat AS rc ON c.supercat_nome = rc.nome AND c.userid = rc.userid WHERE c.userid = bil_var.userid 
 							)
 							SELECT nome FROM rec_cat
 						) AND data >= bil_var.data_partenza AND data <= $1;

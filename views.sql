@@ -1,6 +1,6 @@
 CREATE VIEW rapp_conto as SELECT a.data,a.cr,a.de,a.descrizione,a.categoria_nome,conto FROM (SELECT id_op,data,valore as cr,NULL as de,descrizione,categoria_nome,conto FROM entrata UNION SELECT id_op, data,NULL as cr,valore as de,descrizione,categoria_nome,conto FROM spesa ORDER BY data,id_op,cr) as a;
 
-CREATE VIEW rapp_bilancio AS SELECT userid,nome_bil,categoria_nome,conto,id_op,data,valore,descrizione FROM spesa as s JOIN (select blca.userid,blca.nome_bil,blca.nome,numero_conto from (SELECT blc.userid,nome_bil,nome from bilancio_categoria as blc,categoria_spesa WHERE nome IN (WITH RECURSIVE rec_cat AS (
+CREATE VIEW rapp_bilancio AS SELECT DISTINCT userid,nome_bil,categoria_nome,conto,id_op,data,valore,descrizione FROM spesa as s JOIN (select blca.userid,blca.nome_bil,blca.nome,numero_conto from (SELECT blc.userid,nome_bil,nome from bilancio_categoria as blc,categoria_spesa WHERE nome IN (WITH RECURSIVE rec_cat AS (
 	SELECT nome,userid,supercat_nome FROM categoria_spesa WHERE userid=blc.userid AND nome=blc.nome_cat
 
 	UNION ALL
