@@ -162,7 +162,7 @@ CREATE OR REPLACE FUNCTION update_account_on_spesa() RETURNS TRIGGER AS
 			IF NEW.valore IS NOT NULL THEN
 				SELECT amm_disp INTO ammontare_disp FROM conto WHERE numero = NEW.conto;
 
-				IF ammontare_disp < NEW.valore THEN
+				IF ammontare_disp < NEW.valore AND (NEW.descrizione NOT LIKE '%Addebito da conto di credito n%' OR NEW.descrizione IS NULL) THEN
 
 					RAISE EXCEPTION 'DISPONIBILITA SUL CONTO % NON SUFFICIENTE', NEW.conto;
 				ELSE

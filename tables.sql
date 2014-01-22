@@ -45,7 +45,7 @@ CREATE DOMAIN DEPCRED AS VARCHAR CHECK(VALUE IN ('Deposito','Credito'));
 
 CREATE TABLE conto(
 	numero INTEGER DEFAULT get_first_free_conto() PRIMARY KEY,
-	amm_disp DECIMAL(19,4) NOT NULL CHECK (amm_disp >= 0),
+	amm_disp DECIMAL(19,4) NOT NULL,
 	tipo DEPCRED NOT NULL,
 	tetto_max DECIMAL(19,4) CHECK (tetto_max >=0 AND ((tipo='Credito' AND tetto_max IS NOT NULL) OR (tipo='Deposito' AND tetto_max IS NULL))),
 	scadenza_giorni INTERVAL CHECK (scadenza_giorni >= '1 day' AND ((tipo = 'Credito' AND scadenza_giorni IS NOT NULL) OR (tipo = 'Deposito' AND scadenza_giorni IS NULL))),
