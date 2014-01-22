@@ -33,16 +33,17 @@ CREATE OR REPLACE FUNCTION create_default_user() RETURNS TRIGGER AS $$
 			INSERT INTO profilo (userid) VALUES (NEW.userid);
 			--categorie di spesa
 			INSERT INTO categoria_spesa(userid,nome) VALUES
-			(NEW.userid,'Alimentazione'),
-			(NEW.userid,'Tributi e Servizi'),
-			(NEW.userid,'Cura della Persona e Abbigliamento'),
-			(NEW.userid,'Sport, Cultura e Tempo Libero'),
-			(NEW.userid,'Casa e Lavoro');
+			(NEW.userid,'Casa'),
+			(NEW.userid,'Persona'),
+			(NEW.userid,'Trasporto'),
+			(NEW.userid,'Hobbies e  Tempo Libero'),
+			(NEW.userid,'Tributi e Servizi vari');
 			--categorie di entrata
 			INSERT INTO categoria_entrata(userid,nome) VALUES
 			(NEW.userid,'Reddito'),
 			(NEW.userid,'Proventi Finanziari'),
-			(NEW.userid,'Vendite');
+			(NEW.userid,'Proventi Immobiliari'),
+			(NEW.userid,'Alienazioni');
 
 			RETURN NEW;
 		END;

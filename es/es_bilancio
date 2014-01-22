@@ -1,29 +1,29 @@
 insert into bilancio values(1,'Gigi',10000,10000,'10 day','1-1-2014');
 insert into bilancio_conto values (1,'Gigi',20);
-insert into bilancio_categoria values (1,'Gigi','Alimentazione');
+insert into bilancio_categoria values (1,'Gigi','Casa');
 
 insert into bilancio values(2,'Gigi',10000,10000,'1 week','1-1-2014');
 insert into bilancio_conto values (2,'Gigi',531);
-insert into bilancio_categoria values (2,'Gigi','Alimentazione');
+insert into bilancio_categoria values (2,'Gigi','Casa');
 
 insert into bilancio values(1,'Gianni',10000,10000,'2 month','1-1-2014');
 insert into bilancio_conto values (1,'Gianni',162);
-insert into bilancio_categoria values (1,'Gianni','Casa e Lavoro');
+insert into bilancio_categoria values (1,'Gianni','Persona');
 
 insert into bilancio values(1,'Agamennone',10000,10000,'3 week','1-1-2014');
 insert into bilancio_conto values (1,'Agamennone',20);
 insert into bilancio_conto values (1,'Agamennone',162);
 insert into bilancio_conto values (1,'Agamennone',159);
-insert into bilancio_categoria values (1,'Agamennone','Alimentazione');
-insert into bilancio_categoria values (1,'Agamennone','Casa e Lavoro');
-insert into bilancio_categoria values (1,'Agamennone','Tributi e Servizi');
+insert into bilancio_categoria values (1,'Agamennone','Casa');
+insert into bilancio_categoria values (1,'Agamennone','Persona');
+insert into bilancio_categoria values (1,'Agamennone','Tributi e Servizi vari');
 
 insert into bilancio values(1,'Janette',10000,10000,'10 day','1-1-2014');
 insert into bilancio_conto values (1,'Janette',162);
-insert into bilancio_categoria values (1,'Janette','Alimentazione');
+insert into bilancio_categoria values (1,'Janette','Casa');
 
 
 insert into bilancio values(1,'Aristide',10000,10000,'1 year','1-1-2014');
 insert into bilancio_conto values (1,'Aristide',20);
 insert into bilancio_conto values (1,'Aristide',159);
-insert into bilancio_categoria values (1,'Aristide','Alimentazione');
+insert into bilancio_categoria values (1,'Aristide','Casa');
