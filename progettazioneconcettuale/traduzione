@@ -1,16 +1,16 @@
 Relazioni:
-	conto(KEY N#, amm NOTNULL, tettomax, scadenza, tipo, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -riferitoa- conto_di_rif)
+	conto(KEY N#, amm_disp NOTNULL, tipo, tettomax, scadenza_giorni, -haun- utente.ID NOT NULL, -haun- datacreazione NOT NULL, -riferitoa- conto_di_rif)
 
-	spesa(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
+	spesa(KEY(conto.n#, idop), data,categoria.nome,categoria.user,descrizione,valore NOT NULL)
 
-	entrata(KEY(conto.n#, idop), data,categoria,descrizione,valore NOT NULL)
+	entrata(KEY(conto.n#, idop), data,categoria.nome,categoria.user,descrizione,valore NOT NULL)
 
-	categoria_spesa(KEY(utente.ID, nome), -supercat- categoria.utente.ID, -supercat- categoria.nome) rimuovo categoria.utente.ID per ridondanza
-	categoria_entrata(KEY(utente.ID, nome), -supercat- categoria.utente.ID, -supercat- categoria.nome) rimuovo categoria.utente.ID per ridondanza
+	categoria_spesa(KEY(utente.ID, nome), -supercat- categoria.nome) rimuovo categoria.utente.ID per ridondanza
+	categoria_entrata(KEY(utente.ID, nome), -supercat- categoria.nome) rimuovo categoria.utente.ID per ridondanza
 
-	bilancio(KEY(utente.ID, idbil), ammontareprev NOT NULL,ammontarerest NOTNULL, periodovalidita,datapartenza, )
+	bilancio(KEY(utente.ID, nome), ammontareprev NOT NULL,ammontarerest NOTNULL, periodovalidita,datapartenza)
 
-	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,datadinascita,comunedinascita,nazioneresidenza, indirizzo, telefono)
+	utente(KEY ID,nome,cognome,email,indirizzo,cfiscale NOT NULL,citta,datadinascita,comunedinascita,nazioneresidenza, telefono)
 
 	profilo(KEY(utente.ID), valuta)
 

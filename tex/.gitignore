@@ -3,3 +3,4 @@
 *.fdb_latexmk
 *.dvi
 *.pdf
+*.synctex.gz
