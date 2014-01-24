@@ -1,0 +1,53 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,italian]{babel}
+\usepackage[hmargin=2cm,vmargin=2cm, bottom=2cm]{geometry}
+\usepackage{fancyhdr}%
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage[ruled]{algorithm2e}
+\usepackage{titling}
+\usepackage[normalem]{ulem}
+
+\setlength{\droptitle}{-5em}   % This is your set screw
+\pagestyle{fancy}% Change page style to fancy
+\fancyhf{}% Clear header/footer
+\fancyhead[C]{Michele Lazzeri | 822879}
+\fancyfoot[C]{\thepage}% \fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}% Default \headrulewidth is 0.4pt
+\renewcommand{\footrulewidth}{0.4pt}% Default \footrulewidth is 0pt
+\setlength{\parindent}{0pt}
+
+%inizio custom commands
+\newcommand{\entita}[1]{\textsc{\textbf{#1}}}
+\newcommand{\assoc}[1]{\textit{#1}}
+\newcommand{\relaz}[1]{\textsc{\textbf{#1}}}
+\newcommand{\attr}[1]{\textsf{#1}}
+\newcommand{\key}[1]{\uline{#1}}
+\newcommand{\fkey}[1]{\textit{#1}}
+%fine custom commands
+
+\title{Progetto di Basi di Dati - Manuale Utente}
+\author{Michele Lazzeri | 822879}
+\date{}
+
+\begin{document}
+\maketitle
+\section{Installazione}
+\begin{itemize}
+\item Installare PostgreSQL >= 9.1
+\item Installare l'ultima versione stabile di Apache
+\item Installare PHP >= 5.4
+\item Abilitare i moduli PHP di Apache
+\item Abilitare i moduli psql di PHP in php.ini
+\item Inserire il contenuto della cartella www in una cartella accessibile da Apache
+\item Creare un database nuovo tramite psql
+\item Inserire il dump (src/dump.sql) in tale database
+\item Modificare il contenuto del file www/lib/conf.php inserendo i dati relativi al database
+\item Accedere tramite browser al file www/info.php (se i file sono stati copiati in /var/www basta accedere all'indirizzo http://localhost/info.php)
+\item Cercare la voce 'include\_{}path' (nel mio caso /usr/share/php)
+\item Inserire in tale cartella il contenuto della cartella lib
+
+\end{itemize}
+\end{document}
