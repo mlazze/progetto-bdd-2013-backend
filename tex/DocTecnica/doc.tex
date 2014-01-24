@@ -186,5 +186,54 @@ Per la realizzazione del progetto sono stati utilizzati:
 \end{itemize}
 
 \section{Descrizione funzioni}
-La descrizione delle varie funzioni è presente nei file: src/postfunct.sql src/prefunct.sql src/triggers.sql
+\subsection{Funzioni PLPGSQL}
+Le funzioni sono presenti nei files src/prefunct.sql src/postfunct.sql e src/triggers.sql
+\begin{itemize}
+\item prefunct.sql Contiene le funzioni che vanno inserite prima delle tabelle
+\begin{itemize}
+\item get\_{}first\_{}free\_{}utente: cerca il massimo degli userid e restituisce massimo+1
+\item get\_{}first\_{}free\_{}conto: cerca il massimo dei numeri di conto e restituisce massimo+1
+\item get\_{}first\_{}free\_{}spentr: cerca il massimo delle spese e entrate e restituisce massimo+1
+\item Queste tre funzioni sostituiscono l'uso del tipo SERIAL o delle sequenze, in quanto permettono di non avere troppi id "vuoti". In pratica, utilizzando SERIAL o una sequenza, nel momento in cui avviene l'inserimento di una spesa tale sequenza viene portata a n+1. Se però l'inserimento non va a buon fine (a causa di vincoli o trigger) la sequenza non viene riportata a n, quindi n+1 rimane inutilizzato e al prossimo inserimento verrà usato n+2. Usando queste funzioni, invece, se l'inserimento dell'utente con id n+1 non va a buon fine, l'id n+1 verrà utilizzato per il prossimo inserimento.
+\end{itemize}
+\item triggers.sql Contiene le funzioni fatte scattare dai trigger e la definizione di questi ultimi
+\begin{itemize}
+\item tr\_{}upd\_{}spesa\_{}id, la relativa funzione, tr\_{}upd\_{}entrata\_{}id e la relativa funzione prendono la spesa/entrata inserita e modificano l'id chiamando la funzione get\_{}first\_{}free\_{}spentr. Questo perchè la numerazione dipende dal conto, infatti la chiave delle relazioni spesa e entrata è conto,id\_{}op . Quindi id\_{}op deve prendere il valore n+1 dove n è il massimo dell'id per quel conto. Dato che sql non permette di passare direttamente tramite DEFAULT una funzione i cui parametri sono stabiliti nell'inserimento stesso, questa limitazione viene aggirata impostando a 0 l'id della spesa/entrata e creando poi questo trigger che calcola l'id corretto e lo modifica
+\item tr\_{}create\_{}defaults e la relativa funzione all'inserimento di un utente creano le categorie di default e un profilo di default.
+\item tr\_{}check\_{}referral\_{}account e la relativa funzione controllano, all'inserimento di un conto di credito, che il conto di debito associato sia effettivamente di debito, che appartenga allo stesso utente e che la data di creazione del conto di credito non sia antecedente alla data di creazione del conto di debito
+\item tr\_{}initial\_{}deposit e la relativa funzione creano le entrate iniziali dei conti di deposito e di credito
+\item tr\_{}check\_{}date\_{}spesa e la relativa funzione controllano che la data della spesa non sia antecedente alla creazione del conto e controlla anche che la categoria, se impostata, appartenga allo stesso utente
+\item tr\_{}check\_{}date controlla che la data della creazione del bilancio non sia anteriore alla creazione del conto e che appartengano allo stesso utente
+\item tr\_{}set\_{}default\_{}amount imposta l'ammontare rimanente del bilancio uguale all'ammontare stabilito all'inserimento di un nuovo bilancio
+\item tr\_{}upd\_{}account\_{}on\_{}spesa all'inserimento di una spesa aggiorna l'ammontare del conto associato
+e controlla che ci sia disponibilità sufficiente
+\item tr\_{}upd\_{}account\_{}on\_{}entrata all'inserimento di una spesa aggiorna l'ammontare del conto e proibisce l'inserimento di entrate per i conti di credito (tranne che per l'entrate da rinnovo)
+\item tr\_{}upd\_{}bilancio\_{}on\_{}spesa aggiorna l'ammontare disponibile dei bilanci associati a tale spesa
+\end{itemize}
+\item postfunct.sql Contiene le funzioni che vanno inserite dopo le tabelle
+\begin{itemize}
+\item fixall\_{}til implementa la funzione di \emph{testing} lanciata all'aggiornamento della data tramite form nell'applicazione. Questa funzione calcola per ogni conto di credito gli ammontare parziali di spesa per ogni periodo, controlla che non esista già una spesa sul relativo conto di riferimento e inserisce una spesa di Addebito da carta di credito. Ricalcola quindi l'ammontare dei conti di deposito e aggiorna l'ammontare disponibile dei bilanci. Spiegazione più dettagliata di tale funzione nel manuale utente alla sezione 2.
+\item upd\_{}fixall chiama la precedente funzione passando la data attuale come parametro
+\item get\_{}last\_{}period\_{}start\_{}bil passando come parametri la chiave del bilancio e una data D restituisce la prima data precedente a D di rinnovo del bilancio
+\item get\_{}last\_{}period\_{}start\_{}cred passando come parametri la chiave del conto di credito e una data D restituisce la prima data precedente a D di rinnovo del conto di credito
+\item verifica\_{}appartenenza restituisce 1 se il conto appartiene all'utente, 0 altrimenti
+\item fix\_{}cron ricevendo come parametro una data aggiorna calcola per i conti di credito in scadenza il totale delle spese del periodo, crea una spesa nei relativi conti di debito e aggiorna l'ammontare dei bilanci in scadenza
+
+\end{itemize} 
+
+\end{itemize}
+
+\subsection{Funzioni PHP}
+Le principali funzioni PHP contenute nel file www/lib/lib\_{}base.php usate sono:
+\begin{itemize}
+\item connection\_{}pgsql che esegue la connessione al db tramite il file conf.php e restituisce la risorsa di connessione
+\item query che esegue le funzioni pg\_{}prepare e pg\_{}execute e restituisce la risorsa
+\item date\_{}to\_{}dmy che restituisce la data formattata d/m/Y
+\item decimal\_{}to\_{}currency che restituisce un importo formattato
+\item select\_{}to\_{}table a partire da una query formatta l'output in una tabella (descrizione più dettagliata nel file lib\_{}base.php)
+\item select\_{}to\_{}tablewsum come la precedente ma inserisce una linea in cui calcola la somma di alcune colonne
+\item select\_{}to\_{}select\_{}form crea un menu a tendina contenente il risultato di una query
+\item sanitize\_{}number restituisce un numero nel formato XXXX.YY
+
+\end{itemize} 
 \end{document}
