@@ -48,36 +48,7 @@ INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Haviva','Ricciardi','LOBWYZ26B46B306W','570-4573 Odio. St.','Cyprus','Mauris@pellentesque.ca','9028/811024');
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Eleanor','Albanese','MYBFIP89L41V120R','Ap #434-4128 Curae; Road','Cameroon','nunc@hendrerit.com','+935989518866');
 INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Quemby','Morelli','WOHEEP10T04G282U','P.O. Box 736, 2358 Mauris, Road','Pakistan','accumsan.convallis@consequat.co.uk','5995774235');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Kirby','Giuliani','MQSKZG73H42A547Y','5026 Dictum. Ave','Antigua and Barbuda','nulla@iaculisaliquetdiam.net','5699959183');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Merrill','Colombo','MIHROZ35U40U710Q','6746 Aenean St.','Reunion','justo@sapienAeneanmassa.com','2649/280759');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Blaine','Franco','CPECAD80P31F316T','P.O. Box 357, 6781 Donec Av.','Gibraltar','tincidunt.neque@lobortisauguescelerisque.com','077 3919722');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Cody','Rizzo','GAMEVL37D32N709J','808-2436 Sed Rd.','Uruguay','ante@luctusfelispurus.net','+958278916844');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Ignatius','Barbieri','QUSRTS58S76S261J','Ap #776-7780 Orci Rd.','Antigua and Barbuda','Integer.mollis@blanditmattisCras.com','719/1945630');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Steel','Sala','OQAXKS07O19Z189R','P.O. Box 763, 9699 Mauris Rd.','Nicaragua','lorem.auctor@nonsollicitudin.co.uk','7445/263236');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Ocean','Mariani','BIANZO13T61V695W','205-735 Et Ave','Cayman Islands','venenatis.lacus@duiCumsociis.com','9034433331');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Noelani','Mazza','NWILST89N87U574I','Ap #265-8336 Fermentum Street','Turkmenistan','sapien.gravida.non@adipiscingenimmi.ca','1823/379087');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Charity','Giorgi','CURYSE46U37A995T','5768 Fringilla, Road','Mauritania','metus@tristiquenequevenenatis.com','+576384875587');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Vera','Fusco','LZVADH15A07E736S','5181 Purus Ave','Uruguay','imperdiet@maurisidsapien.ca','2368146909');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Zachary','Marino','RPPAKW97I23N742I','Ap #557-9892 Ipsum. Rd.','Azerbaijan','pharetra@odio.org','131 2834229');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Sophia','Pace','HDZZED44F85B357J','Ap #995-5644 Arcu. St.','Liberia','lorem.vehicula.et@vulputatevelit.net','362/8007437');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Rhonda','Guidi','VLPMAN63Z84Z687J','417-5731 Proin Avenue','Bahrain','quam@placerat.org','231 3747722');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Fallon','Piazza','YOOLKF98O42H209I','906-5366 Sed Rd.','Netherlands','dolor.Nulla@risus.net','2421611456');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Veronica','Piras','UQROZQ13M89G907L','P.O. Box 685, 8976 In Av.','Mozambique','blandit.Nam@in.edu','6319431114');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Zephania','Ferrari','NYAEGI77J55D459D','Ap #380-9211 Nibh Av.','Dominican Republic','Cum.sociis.natoque@nisiaodio.org','874 7479458');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Nita','Martinelli','JOQLYF75W95A692A','7668 At Street','Lesotho','amet.consectetuer@Duisdignissimtempor.com','0850965522');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Roth','Ruggeri','XQMDDT38S37Q854K','227-6192 Ridiculus Road','Saint Pierre and Miquelon','gravida@felisDonectempor.com','0598/040102');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Jocelyn','Sorrentino','ZBVEIE75Y27Z013C','3574 Praesent Rd.','Sweden','mi@scelerisquescelerisque.edu','+618622228952');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Avram','Napolitano','AKBCHZ61B89N368A','475-8279 Dolor Ave','Norfolk Island','dolor.Donec@ipsumnunc.org','+207130059254');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Virginia','Ferrara','KLMSAA70T75S365L','5113 Nunc Rd.','Comoros','urna.justo@miac.co.uk','+623702256850');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Linda','Giuliani','NECJTQ63U66H721L','Ap #528-9644 Purus Road','Iraq','consequat.nec.mollis@fermentumconvallisligula.co.uk','903 6774132');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('James','Fusco','XGONFN48Z34K871D','P.O. Box 316, 754 Fusce Avenue','Virgin Islands, British','id.erat.Etiam@necante.net','2655516170');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Nita','Marini','EKNNMS04C81W200S','182-7528 Nec St.','Guam','elit@eu.net','+587511107629');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('John','Romano','PLZPRV65T71Q514P','506-7539 Dictum Rd.','Indonesia','pharetra@posuere.edu','5220424473');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Frances','Pozzi','YDFRGE25E71T799Y','Ap #278-1698 Lacinia St.','Niger','egestas@Morbiaccumsan.edu','902/7568025');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Rahim','Barbieri','VEIYVQ55Q32S285Z','P.O. Box 923, 8075 Sed St.','Sri Lanka','ante@justositamet.co.uk','466 9226052');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Kennan','Mazza','TSMOHO55I77D407O','3829 Adipiscing St.','Liechtenstein','pellentesque.Sed.dictum@utmiDuis.co.uk','5833/154293');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Kessie','Bernardi','WFLKNW24F67T571M','P.O. Box 270, 5449 A, St.','Honduras','ornare.In.faucibus@Nullaeget.co.uk','+017379421480');
-INSERT INTO "utente" (nome,cognome,cfiscale,indirizzo,nazione_res,email,telefono) VALUES ('Brenna','Pellegrino','QIZZXF54P86G648D','165-5166 Tellus. Avenue','Djibouti','ut.molestie.in@vitaepurusgravida.edu','341 4071535');
+
 
 CREATE OR REPLACE FUNCTION def_password(INTEGER,VARCHAR) RETURNS VOID AS $$
 	DECLARE
@@ -90,4 +61,4 @@ CREATE OR REPLACE FUNCTION def_password(INTEGER,VARCHAR) RETURNS VOID AS $$
 $$ LANGUAGE plpgsql;
 
 SELECT def_password(80,'bcd644e2d5241ed2183bd4d74f48ec803e8ca268016532f0159ed32c62b1d67f');
--- password è la password di default per questi 80 utenti
+-- password è la password di default per questi 50 utenti

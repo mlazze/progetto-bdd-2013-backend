@@ -1,29 +1,29 @@
-insert into bilancio values(1,'Gigi',10000,10000,'10 day','1-1-2014');
-insert into bilancio_conto values (1,'Gigi',20);
-insert into bilancio_categoria values (1,'Gigi','Casa');
+insert into bilancio values(1,'Spese Casa e Persona',600,600,'15 day','31-5-2013');
+insert into bilancio_conto values (1,'Spese Casa e Persona',54);
+insert into bilancio_conto values (1,'Spese Casa e Persona',120);
+insert into bilancio_categoria values (1,'Spese Casa e Persona','Casa');
+insert into bilancio_categoria values (1,'Spese Casa e Persona','Persona');
 
-insert into bilancio values(2,'Gigi',10000,10000,'1 week','1-1-2014');
-insert into bilancio_conto values (2,'Gigi',531);
-insert into bilancio_categoria values (2,'Gigi','Casa');
+insert into bilancio values(1,'Spese Tributi',550,550,'30 day','31-5-2013');
+insert into bilancio_conto values (1,'Spese Tributi',54);
+insert into bilancio_conto values (1,'Spese Tributi',120);
+insert into bilancio_categoria values (1,'Spese Tributi','Tributi e Servizi vari');
 
-insert into bilancio values(1,'Gianni',10000,10000,'2 month','1-1-2014');
-insert into bilancio_conto values (1,'Gianni',162);
-insert into bilancio_categoria values (1,'Gianni','Persona');
+insert into bilancio values(1,'Spese Trasporti',150,150,'30 day','31-5-2013');
+insert into bilancio_conto values (1,'Spese Trasporti',155);
+insert into bilancio_categoria values (1,'Spese Trasporti','Trasporto');
 
-insert into bilancio values(1,'Agamennone',10000,10000,'3 week','1-1-2014');
-insert into bilancio_conto values (1,'Agamennone',20);
-insert into bilancio_conto values (1,'Agamennone',162);
-insert into bilancio_conto values (1,'Agamennone',159);
-insert into bilancio_categoria values (1,'Agamennone','Casa');
-insert into bilancio_categoria values (1,'Agamennone','Persona');
-insert into bilancio_categoria values (1,'Agamennone','Tributi e Servizi vari');
+insert into bilancio values(2,'Spese Casa e Persona',900,900,'15 day','31-5-2013');
+insert into bilancio_conto values (2,'Spese Casa e Persona',27);
+insert into bilancio_conto values (2,'Spese Casa e Persona',76);
+insert into bilancio_categoria values (2,'Spese Casa e Persona','Casa');
+insert into bilancio_categoria values (2,'Spese Casa e Persona','Persona');
 
-insert into bilancio values(1,'Janette',10000,10000,'10 day','1-1-2014');
-insert into bilancio_conto values (1,'Janette',162);
-insert into bilancio_categoria values (1,'Janette','Casa');
+insert into bilancio values(2,'Spese Tributi',350,350,'30 day','31-5-2013');
+insert into bilancio_conto values (2,'Spese Tributi',27);
+insert into bilancio_conto values (2,'Spese Tributi',76);
+insert into bilancio_categoria values (2,'Spese Tributi','Tributi e Servizi vari');
 
-
-insert into bilancio values(1,'Aristide',10000,10000,'1 year','1-1-2014');
-insert into bilancio_conto values (1,'Aristide',20);
-insert into bilancio_conto values (1,'Aristide',159);
-insert into bilancio_categoria values (1,'Aristide','Casa');
+insert into bilancio values(2,'Spese Trasporti',250,250,'30 day','31-5-2013');
+insert into bilancio_conto values (2,'Spese Trasporti',159);
+insert into bilancio_categoria values (2,'Spese Trasporti','Trasporto');

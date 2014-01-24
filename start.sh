@@ -39,6 +39,14 @@ echo populating bilancio
 echo ----
 psql -U postgres -h localhost -q bdd < es/es_bilancio
 echo ----
+echo populating entrata
+echo ----
+psql -U postgres -h localhost -q bdd < es/es_entrata
+echo ----
+echo populating spesa
+echo ----
+psql -U postgres -h localhost -q bdd < es/es_spese
+echo ----
 echo starting funct
 echo ----
 psql -U postgres -h localhost -q bdd < es/es_inizio

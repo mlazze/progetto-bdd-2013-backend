@@ -64,5 +64,12 @@ Ovviamente al posto di 'src/check.sh' va inserito il percorso corretto di check.
 \end{itemize}
 
 \section{Note}
-Per facilitare il testing è stata inserita un form in alto a sinistra nelle pagine web che permette di impostare una data diversa dall'attuale. In questo modo è possibile modificare la data senza dovere cambiare quella di sistema. Tale form ha un solo difetto: essendoci dei controlli ad ogni inserimento di spese per non andare in negativo sul conto, nel momento in cui si inserisce una spesa s1 in un tempo x, quindi si torna ad una data precedente tramite questo form, si inserisce un'altra spesa s2 e si ritorna alla data x, è possibile che quest'ultima operazione non vada a buon fine, non permettendo l'inserimento della spesa s1 in quanto il conto andrebbe in negativo. Per ovviare a tale problema, basta evitare di impostare una data anteriore. Tale comportamente non è comunque vietato dall'applicazione, essendo \emph{esclusivamente} un form di testing. Nell'applicazione reale tale form non dovrebbe esistere, il rinnovo dei conti di credito e dei bilanci avviene tramite cronjob.
+\begin{itemize}
+\item Per facilitare il testing è stata inserita un form in alto a sinistra nelle pagine web che permette di impostare una data diversa dall'attuale. In questo modo è possibile modificare la data senza dovere cambiare quella di sistema. Tale form ha un solo difetto: essendoci dei controlli ad ogni inserimento di spese per non andare in negativo sul conto, nel momento in cui si inserisce una spesa s1 in un tempo x, quindi si torna ad una data precedente tramite questo form, si inserisce un'altra spesa s2 e si ritorna alla data x, è possibile che quest'ultima operazione non vada a buon fine, non permettendo l'inserimento della spesa s1 in quanto il conto andrebbe in negativo. Per ovviare a tale problema, basta evitare di impostare una data anteriore. Tale comportamente non è comunque vietato dall'applicazione, essendo \emph{esclusivamente} un form di testing. Nell'applicazione reale tale form non dovrebbe esistere, il rinnovo dei conti di credito e dei bilanci avviene tramite cronjob.
+\item Il database è popolato da 50 utenti con username 1, 2, 3,... e password 'password'
+\item Quasi tutti gli utenti hanno conti di deposito, entrate e spese
+\item Solo gli utenti con username 1 e 2 hanno dei conti di credito e bilanci
+
+
+\end{itemize}
 \end{document}
