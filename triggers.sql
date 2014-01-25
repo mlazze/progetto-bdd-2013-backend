@@ -71,7 +71,7 @@ CREATE OR REPLACE FUNCTION check_oncredit_debt_exists() RETURNS TRIGGER AS $$
 				IF debtvar.data_creazione > NEW.data_creazione THEN
 					RAISE EXCEPTION 'REFERRAL ACCOUNT HAS A NEWER DATE THEN CREDIT ACCOUNT VALUE %', NEW.tetto_max;
 				END IF;
-				NEW.amm_disp = NEW.tetto_max;
+				NEW.amm_disp := 0;
 
 			END IF;
 			RETURN NEW;
@@ -89,8 +89,8 @@ CREATE OR REPLACE FUNCTION initial_deposit() RETURNS TRIGGER AS $$
 			END IF;
 		END IF;
 		IF NEW.tipo = 'Credito' THEN
-			IF NEW.amm_disp > 0 THEN
-				insert into entrata(conto,data,descrizione,valore) VALUES (NEW.numero,NEW.data_creazione,'Rinnovo conto di Credito',NEW.amm_disp);
+			IF NEW.tetto_max > 0 THEN
+				insert into entrata(conto,data,descrizione,valore) VALUES (NEW.numero,NEW.data_creazione,'Rinnovo conto di Credito',NEW.tetto_max);
 			END IF;
 		END IF;
 		RETURN NEW;
@@ -194,7 +194,7 @@ CREATE OR REPLACE FUNCTION update_account_on_entrata() RETURNS TRIGGER AS
 			--finedecommentare
 
 			--RAISE NOTICE 'operazione: % conto %, descr %, valore %, data %', NEW.id_op, NEW.conto,NEW.descrizione,NEW.valore, NEW.data;
-			IF NEW.descrizione <> 'Deposito Iniziale' THEN
+			IF NEW.descrizione <> 'Deposito Iniziale' OR NEW.descrizione IS NULL THEN
 				UPDATE conto SET amm_disp = amm_disp + NEW.valore WHERE numero = NEW.conto;
 			END IF;
 			RETURN NEW;
